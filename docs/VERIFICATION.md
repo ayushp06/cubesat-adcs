@@ -30,7 +30,7 @@ on-orbit data were used.
 | FSW-001 | SI-unit transport/timing | packet sizes, CRC, timer rollover; no live transport | `adcs_sil` | PARTIAL |
 | FSW-002 | Portable control convention | known PD direction/damping | MATLAB test and `adcs_sil` | PASS (host SIL) |
 | FSW-003 | Portable flight algorithm stack | strict build; GoogleTest; MATLAB parity within documented tolerances | `adcs_sil`, reference CSV, FSW-003 logs | PASS |
-| INT-001 | Closed-loop digital twin | plant-to-sensor-to-estimator-to-control-to-actuator scenario | components only | PARTIAL |
+| INT-001 | Closed-loop digital twin | five seeded scenarios; pointing/MEKF `<3 deg`, quaternion error `<1e-10`, wheel limits; saturation, momentum reduction, fault/recovery | `testIntegratedAdcs`, integrated CSV/figures/log | PASS |
 | SIM-001 | Simulink integration | add only where block-level simulation adds value | no demonstrated need | NOT APPLICABLE |
 | VER-001 | Seeded noisy regression | 12 seeds meet EST-002 | `runProjectVerification` | PASS |
 | HIL-001 | Physical MCU closed loop | timing/electrical/closed-loop evidence | none | BLOCKED |
@@ -43,6 +43,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 octave --quiet --eval 'addpath(genpath("matlab")); runProjectVerification("artifacts/verification");'
+octave --quiet --eval 'addpath(genpath("matlab")); runIntegratedAdcsCampaign("artifacts/integration");'
 ```
 
 MEKF headline seed 21 and Monte Carlo seeds 1001--1012 are fixed. Outputs are
@@ -65,6 +66,7 @@ MEKF headline seed 21 and Monte Carlo seeds 1001--1012 are fixed. Outputs are
 | Monte Carlo | `runMonteCarloVerification`, CSV/histogram |
 | Fault scenario | `runFaultScenario` |
 | SIL | CMake/CTest `adcs_sil` |
+| Full estimator-in-the-loop cases | `runIntegratedAdcsCampaign`, integrated CSV/figures |
 
 ## Verified results on 2026-08-19
 
@@ -81,5 +83,10 @@ MEKF headline seed 21 and Monte Carlo seeds 1001--1012 are fixed. Outputs are
 | PD / PID / LQR settling | `52.6 / 52.6 / 63.4 s` |
 | Monte Carlo pass rate | `12/12` |
 | Native SIL | PASS |
+| Integrated slew settling / final pointing | `65.36 s` / `0.5839 deg` |
+| Integrated inertial / nadir final pointing | `0.8939 / 0.7293 deg` |
+| Integrated MEKF final-error range | `0.5699--0.9711 deg` |
+| Integrated desaturation momentum | `0.0412650 -> 0.0410452 N m s` |
+| Integrated quaternion norm error maximum | `3.331e-16` |
 
 These are numerical results for configured models, not flight guarantees.

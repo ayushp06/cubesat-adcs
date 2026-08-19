@@ -1,0 +1,5 @@
+slew           PASS point= 0.584 deg estimate= 0.699 deg qnorm=3.33e-16
+inertial       PASS point= 0.894 deg estimate= 0.646 deg qnorm=2.22e-16
+nadir          PASS point= 0.729 deg estimate= 0.945 deg qnorm=3.33e-16
+desaturation   PASS point= 0.693 deg estimate= 0.971 deg qnorm=2.22e-16
+fault          PASS point= 0.484 deg estimate= 0.570 deg qnorm=3.33e-16

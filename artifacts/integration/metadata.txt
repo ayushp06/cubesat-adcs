@@ -1,0 +1,5 @@
+git_revision=6bbfa46e6296e002a1b48583b8844a566dbca127
+octave_version=8.4.0
+seeds=3101:3105
+integrator=fixed-step RK4
+step_s=0.02

@@ -1,7 +1,7 @@
 clear;
 clc;
 
-addpath("../math");
+addpath(fullfile(fileparts(mfilename("fullpath")),"..","math"));
 
 tol = 1e-12;
 

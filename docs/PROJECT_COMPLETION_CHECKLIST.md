@@ -6,9 +6,10 @@ and adds the non-hardware completion gates exposed by the roadmap.
 
 ## Completion decision
 
-**NOT COMPLETE.** The MATLAB/Octave components and portable C++ flight stack
-are verified. The fully closed-loop integrated digital twin (`INT-001`) remains
-the sole PARTIAL non-hardware core requirement.
+**SOFTWARE COMPLETE.** Every non-hardware core requirement is PASS, including
+the fully closed-loop integrated digital twin (`INT-001`). Live transport,
+physical HIL, and calibration remain explicitly outside this software-complete
+decision.
 Physical HIL and calibration are BLOCKED by unavailable selected hardware and
 are not used to decide component-level software correctness.
 
@@ -18,6 +19,8 @@ are not used to decide component-level software correctness.
 - Clean native build/CTest log: `artifacts/verification/clean_build.log`.
 - Reproduced demo log: `artifacts/verification/demo_campaign.log`.
 - Numerical result table: `artifacts/verification/verification_results.csv`.
+- INT-001 evidence: `artifacts/integration/integrated_results.csv`, PNGs, and
+  logs in `artifacts/integration/`.
 - Figures: `artifacts/verification/*.png`.
 - Source paths below identify the implementation under test.
 - “Figure N/A” is used only where a visual would add no evidence beyond an
@@ -46,7 +49,7 @@ are not used to decide component-level software correctness.
 | FSW-001 | PARTIAL | `adcs_sil` validates sizes/CRC/rollover; no live serial transport | protocol table in `HIL_ARCHITECTURE.md` | `clean_build.log` | `protocol.hpp`, `timing.hpp` |
 | FSW-002 | PASS | MATLAB/C++ known-vector PD signs pass | Figure N/A; cross-language vector | test/build logs | `quaternionPDController.m`, `control.hpp` |
 | FSW-003 | PASS | clean strict build; 11/11 GoogleTests; MATLAB parity within `2e-15`--`2e-10` | reference CSV/tolerance table | `fsw003_clean_build.log`, `fsw003_gtest.log`, `fsw003_matlab_reference.log` | `math.hpp`, `estimation.hpp`, `guidance.hpp`, `control.hpp`, `mode.hpp`, `config.hpp`, `flight.hpp` |
-| INT-001 | PARTIAL | No complete estimator-in-the-loop actuator scenario | component figures only | demo log | component simulations; no integrated entry point |
+| INT-001 | PASS | `testIntegratedAdcs`; 5/5 missions, pointing `0.484--0.894 deg`, MEKF `0.570--0.971 deg`, quaternion error `<=3.331e-16`, saturation/fault/recovery and momentum reduction observed | `integrated_results.csv`, `integrated_pointing.png`, `integrated_estimator.png`, `integrated_desaturation.png` | `integration_campaign.log`, `full_matlab_tests.log` | `integratedSpacecraftDynamics.m`, `flightAdcsStep.m`, `simulateIntegratedAdcsScenario.m` |
 | SIM-001 | NOT APPLICABLE | No requirement showing Simulink adds verification value | N/A | N/A | MATLAB/Octave reference is authoritative |
 | VER-001 | PASS | 12/12 seeded MEKF trials meet thresholds | `monte_carlo.png`, `monte_carlo.csv` | `demo_campaign.log` | `runMonteCarloVerification.m`, `runProjectVerification.m` |
 | HIL-001 | BLOCKED | No physical target/hardware was available or executed | N/A | no HIL log exists | architecture only; no hardware implementation |
@@ -58,16 +61,14 @@ are not used to decide component-level software correctness.
 - [x] Every PASS identifies test, result, figure/table or justified N/A, log,
   and source implementation.
 - [x] Infrastructure-only protocol/timing is PARTIAL, not validated end-to-end.
-- [x] Full available MATLAB/Octave suite rerun from a clean worktree baseline.
-- [x] Native build directory deleted and configured/built/tested from scratch.
+- [x] Full available MATLAB/Octave suite rerun: all 18 scripts PASS.
+- [x] New native build directory configured/built/tested from scratch with
+  strict warnings: CTest and 11/11 GoogleTests PASS.
 - [x] Major 15-check demonstration campaign reproduced with 12 fixed seeds.
 - [x] README, STATUS, ROADMAP, V&V matrix, HIL boundary, and results reconciled.
-- [ ] All non-hardware core requirements PASS (`INT-001` remains).
+- [x] All non-hardware core requirements PASS.
 
-## Required work before declaring the software project complete
+## Remaining hardware gates
 
-1. Add a seeded end-to-end scenario that closes truth plant → sensor packets →
-   estimator → guidance/modes → actuator commands → truth plant, including
-   dropouts, saturation, desaturation, and a fault transition.
-2. Rerun this audit; only then may the non-hardware software project be marked
-   complete. Physical HIL/calibration remain separate hardware gates.
+Physical processor/HIL execution and measured calibration require selected
+hardware. No such execution is claimed.

@@ -4,15 +4,15 @@ Updated: 2026-08-19
 
 ## Current phase
 
-INT-001 integration is in progress. The 16-state truth plant now combines the
-validated 6-DOF environment dynamics with reaction wheels and magnetorquers;
-the seeded measurement-to-MEKF-to-guidance/control-to-actuator scenario and
-regression test are implemented. The full clean test/campaign audit remains
-open, so INT-001 is not yet marked PASS.
+INT-001 is complete. Five seeded scenarios execute the 16-state 6-DOF truth
+plant through realistic sensors, the truth-isolated MEKF flight boundary,
+guidance/modes, PD/allocation, wheels and magnetorquers, and back into truth.
+All missions, the clean native build, 11 GoogleTests, cross-language parity,
+and all 18 MATLAB/Octave test scripts passed on 2026-08-19.
 
 FSW-003 is complete: the portable C++ flight core passed a clean strict build,
 11 GoogleTests, deterministic MATLAB cross-validation, and all relevant MATLAB
-reference suites. The separate end-to-end integrated digital twin remains open.
+reference suites.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -90,9 +90,6 @@ truth state to estimator functions.
   executed. Environment,
   sensor, and actuator models use engineering assumptions rather than selected
   flight-hardware data.
-- No single scenario closes the full plant-to-sensor-to-estimator-to-guidance/
-  mode-to-actuator loop. Existing demonstrations validate those components in
-  isolation or in smaller closed loops.
 
 ## Validation status
 
@@ -130,15 +127,17 @@ Executed with GNU Octave on 2026-08-19:
 | Relevant MATLAB reference suites | PASS — quaternion, determination, MEKF, guidance, PD/LQR, modes |
 | `testIntegratedSpacecraftDynamics` | PASS — orbit, wheel, rod, and all-effects derivative checks |
 | `testIntegratedAdcs` | PASS — deterministic noisy slew closes full loop with truth boundary |
+| `runIntegratedAdcsCampaign` | PASS — 5/5 missions; slew/inertial/nadir/desaturation/fault |
+| Clean INT-001 native gate | PASS — strict Release build, CTest, 11/11 GoogleTests, MATLAB parity |
+| Full MATLAB/Octave suite | PASS — all 18 test scripts |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Close the full plant/sensor/estimator/guidance/control/actuator loop (INT-001).
-2. Execute processor/HIL tests only when physical hardware is available.
+1. Execute processor/HIL tests only when physical hardware is available.
 
 ## Latest good commit
 
-`161fe85` (`test: verify portable C++ ADCS stack`) is the latest clean verified
-technical baseline.
+The final INT-001 verification commit is the latest clean verified technical
+baseline.

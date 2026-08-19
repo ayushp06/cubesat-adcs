@@ -35,7 +35,8 @@ guidance references.
 
 - Scalar-first Hamilton `q_IB`, quaternion algebra, and DCMs.
 - Torque-free rigid body, wheel momentum exchange, and actuator limits.
-- ECI two-body/J2 orbit and coupled 13-state 6-DOF propagation.
+- ECI two-body/J2 orbit, coupled 13-state validation plant, and closed-loop
+  16-state 6-DOF/wheel propagation.
 - Gravity gradient, drag/aerodynamic torque, Sun/eclipse, solar pressure, and
   centered-dipole magnetic field.
 - Gyro, magnetometer, coarse Sun, GPS, and optional star tracker with
@@ -54,8 +55,7 @@ Requirements: GNU Octave 8+ or MATLAB, CMake 3.16+, and a C++17 compiler.
 Run all MATLAB/Octave tests:
 
 ```bash
-cd matlab/tests
-for test_file in test*.m; do octave --quiet "$test_file" || exit 1; done
+for test_file in matlab/tests/test*.m; do octave --quiet "$test_file" || exit 1; done
 ```
 
 Build and test native SIL:
@@ -76,6 +76,12 @@ Expected summary: `PROJECT VERIFICATION COMPLETE: 15 checks, Monte Carlo pass
 100%`. Recorded results are in
 [`verification_results.csv`](artifacts/verification/verification_results.csv).
 
+Run the complete estimator-in-the-loop campaign:
+
+```bash
+octave --quiet --eval 'addpath(genpath("matlab")); runIntegratedAdcsCampaign("artifacts/integration");'
+```
+
 ## Demonstrations
 
 Use `addpath(genpath("matlab"))`, then run:
@@ -92,6 +98,7 @@ Use `addpath(genpath("matlab"))`, then run:
 | Wheel unloading | `simulateMomentumUnloading()` |
 | PD/PID/LQR | `runControllerComparison` |
 | Monte Carlo/fault | `runMonteCarloVerification(12)`, `runFaultScenario()` |
+| Full integrated loop | `runIntegratedAdcsCampaign("artifacts/integration")` |
 
 ## Final evidence
 
@@ -157,8 +164,7 @@ artifacts            generated final evidence
 ## Future work
 
 1. Select hardware and replace assumptions with traced/calibrated values.
-2. Port MEKF, guidance, magnetic control, allocation, and modes to fixed-memory
-   C++, cross-checking shared vectors at every boundary.
+2. Connect the portable C++ flight core to a timed processor/serial SIL target.
 3. Add transport fuzzing, command-timeout tests, WCET/stack measurements, and
    processor-in-loop serial loopback.
 4. Execute staged physical HIL and record board, firmware, wiring, loads,

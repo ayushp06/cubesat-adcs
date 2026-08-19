@@ -1,0 +1,44 @@
+RUN matlab/tests/testAdvancedControllers.m
+ALL ADVANCED CONTROLLER TESTS PASSED
+RUN matlab/tests/testAttitudeControl.m
+ALL ATTITUDE CONTROL TESTS PASSED
+RUN matlab/tests/testAttitudeDetermination.m
+ALL ATTITUDE DETERMINATION TESTS PASSED
+RUN matlab/tests/testAttitudeSlews.m
+ALL ATTITUDE SLEW TESTS PASSED
+RUN matlab/tests/testDynamicsFoundation.m
+ALL DYNAMICS FOUNDATION TESTS PASSED
+RUN matlab/tests/testFullSpacecraftDynamics.m
+ALL FULL SPACECRAFT DYNAMICS TESTS PASSED
+RUN matlab/tests/testGuidance.m
+ALL GUIDANCE TESTS PASSED
+RUN matlab/tests/testIntegratedAdcs.m
+ALL INTEGRATED ADCS TESTS PASSED
+RUN matlab/tests/testIntegratedSpacecraftDynamics.m
+ALL INTEGRATED SPACECRAFT DYNAMICS TESTS PASSED
+RUN matlab/tests/testMagneticControl.m
+ALL MAGNETIC CONTROL TESTS PASSED
+RUN matlab/tests/testMekf.m
+ALL MEKF TESTS PASSED
+RUN matlab/tests/testModeManagement.m
+ALL MODE MANAGEMENT TESTS PASSED
+RUN matlab/tests/testOrbitDynamics.m
+ALL ORBIT DYNAMICS TESTS PASSED
+RUN matlab/tests/testQuaternionMath.m
+Test 1 passed: identity multiplication
+Test 2 passed: quaternion normalization
+Test 3 passed: quaternion inverse property
+Test 4 passed: identity DCM
+Test 5 passed: DCM orthogonality
+Test 6 passed: DCM determinant
+Test 7 passed: +90 deg Z rotation
+
+ALL QUATERNION TESTS PASSED
+RUN matlab/tests/testReactionWheelDynamics.m
+ALL ONE-WHEEL DYNAMICS TESTS PASSED
+RUN matlab/tests/testSensorModels.m
+ALL SENSOR MODEL TESTS PASSED
+RUN matlab/tests/testSpaceEnvironment.m
+ALL SPACE ENVIRONMENT TESTS PASSED
+RUN matlab/tests/testVerificationScenarios.m
+ALL VERIFICATION SCENARIO TESTS PASSED

@@ -1,0 +1,17 @@
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found GTest: /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake (found suitable version "1.14.0", minimum required is "1.14")
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/ayushp06/Documents/Programming/CubeSat-ADCS/build-int001-clean
+[ 16%] Building CXX object CMakeFiles/adcs_sil.dir/cpp/tests/test_cross_validation.cpp.o
+[ 33%] Building CXX object CMakeFiles/adcs_sil.dir/cpp/tests/test_math_guidance.cpp.o
+[ 50%] Building CXX object CMakeFiles/adcs_sil.dir/cpp/tests/test_control_modes.cpp.o
+[ 66%] Building CXX object CMakeFiles/adcs_sil.dir/cpp/tests/test_estimation.cpp.o
+[ 83%] Building CXX object CMakeFiles/adcs_sil.dir/cpp/tests/test_protocol_timing.cpp.o
+[100%] Linking CXX executable adcs_sil
+[100%] Built target adcs_sil

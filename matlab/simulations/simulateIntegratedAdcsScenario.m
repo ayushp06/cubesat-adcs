@@ -78,8 +78,10 @@ function result = simulateIntegratedAdcsScenario(name,seed,duration)
     end
     rateError=vecnorm(state(:,11:13)-rateReference,2,2);
     momentum=vecnorm((rw.A*(rw.J.*state(:,14:16)'))',2,2);
-    settled=find(pointing<deg2rad(2) & rateError<deg2rad(.2),1);
-    if isempty(settled), settlingTime=Inf; else, settlingTime=times(settled); end
+    outside=find(pointing>=deg2rad(2) | rateError>=deg2rad(.2));
+    if isempty(outside), settlingTime=0;
+    elseif outside(end)<steps, settlingTime=times(outside(end)+1);
+    else, settlingTime=Inf; end
     result=struct("name",char(name),"seed",seed,"times",times,"state",state, ...
         "estimate",estimate,"reference",reference,"modes",{modes}, ...
         "pointingError",pointing,"rateError",rateError,"estimatorError",estimatorError, ...
