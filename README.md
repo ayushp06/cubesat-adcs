@@ -7,6 +7,7 @@ This repository is the beginning of an **Attitude Determination and Control Syst
 This document explains every repository file, derives the mathematics used by the code, shows how information flows through each simulation, records what has been verified, and separates implemented behavior from future intent.
 
 > Status snapshot: project status and current validation results are maintained in [`docs/STATUS.md`](docs/STATUS.md).
+> Quaternion feedback theory and implementation are documented in [`docs/ATTITUDE_CONTROL.md`](docs/ATTITUDE_CONTROL.md).
 
 ---
 

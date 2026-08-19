@@ -9,7 +9,8 @@ Phase 1 — Dynamics foundation and automated validation.
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
 plant invariants and shared reaction-wheel actuator limits are now validated.
-The next milestone is quaternion feedback control.
+Quaternion error, PD feedback, and three-wheel allocation are analytically
+tested. The next milestone is closed-loop slew validation and metrics.
 
 ## Completed and validated
 
@@ -30,6 +31,8 @@ The next milestone is quaternion feedback control.
   commands remain available at either speed boundary.
 - Automated general torque-free energy/inertial-momentum and three-wheel total
   momentum regression checks with explicit ODE tolerances.
+- Shortest-path quaternion attitude error, inertia-scaled quaternion PD control,
+  and sign-correct three-wheel torque allocation.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -51,16 +54,15 @@ Executed with GNU Octave on 2026-08-19:
 | `runThreeWheelTest` | PASS — completed without runtime error |
 | `testReactionWheelDynamics` | PASS — derivative, final speed, and momentum assertions |
 | `testDynamicsFoundation` | PASS — energy, inertial/total momentum, torque, and speed-limit assertions |
+| `testAttitudeControl` | PASS — error convention, feedback signs, and allocation assertions |
 | `runReactionWheelTest` | PASS — max momentum error `4.337e-19 N m s` |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Implement and validate quaternion attitude error, PD control, and
-   reaction-wheel allocation.
-2. Add closed-loop slew scenarios and performance metrics.
-3. Record a solver convergence study for representative closed-loop cases.
+1. Add closed-loop slew scenarios and performance metrics.
+2. Record a solver convergence study for representative closed-loop cases.
 
 ## Latest good commit
 
