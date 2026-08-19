@@ -4,7 +4,7 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 1 is complete; Phase 2 — orbit and disturbance truth models — is next.
+Phase 2 — orbit and disturbance truth models — is in progress.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -12,7 +12,8 @@ plant invariants and shared reaction-wheel actuator limits are now validated.
 Quaternion error, PD feedback, three-wheel allocation, closed-loop slew
 scenarios, performance metrics, and representative solver convergence are
 validated. The MATLAB attitude-control foundation requested for Stage 1 is
-complete.
+complete. ECI two-body and J2 translation are now validated; modular force and
+torque environments are next.
 
 ## Completed and validated
 
@@ -40,6 +41,8 @@ complete.
 - Metrics for pointing error, settling time, overshoot, body rate, applied
   control effort, wheel speed, and wheel momentum.
 - Explicit ODE tolerances in simulations and a two-tolerance convergence check.
+- ECI position/velocity propagation with two-body gravity and optional J2,
+  including analytical J2 checks and orbital energy/momentum regression tests.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -64,14 +67,17 @@ Executed with GNU Octave on 2026-08-19:
 | `testAttitudeSlews` | PASS — five scenarios, actuator bounds, metrics, and solver convergence |
 | `runReactionWheelTest` | PASS — max momentum error `2.168e-19 N m s` |
 | `runAttitudeSlewSuite` | PASS — five scenarios completed and metrics reported |
+| `testOrbitDynamics` | PASS — one-orbit state/invariants and J2 known answers |
+| `runOrbitValidation` | PASS — energy `7.236e-11`, momentum `3.618e-11` relative error |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Begin Phase 2 with validated orbit/time/frame handling and a
-   gravity-gradient torque limiting case.
-2. Preserve the current truth-state controller as the control-law reference
+1. Add independently tested gravity-gradient, atmosphere/drag, Sun/eclipse,
+   solar-pressure, and magnetic models.
+2. Couple translation and rotation in the 13-state 6-DOF truth propagator.
+3. Preserve the current truth-state controller as the control-law reference
    when sensor and estimator states are introduced.
 
 ## Latest good commit

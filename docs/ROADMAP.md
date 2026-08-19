@@ -24,7 +24,7 @@ automated regression tests, and an updated project status before completion.
 
 ## Phase 2 — Orbit and disturbance truth models
 
-- [ ] Add a validated orbit propagator and time/reference-frame handling.
+- [x] Add a validated ECI two-body/J2 orbit propagator and time handling.
 - [ ] Add gravity-gradient torque with analytical limiting cases.
 - [ ] Add configurable aerodynamic, solar-pressure, and magnetic disturbances.
 - [ ] Keep environment and spacecraft truth state independent of flight state.

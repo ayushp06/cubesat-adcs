@@ -8,6 +8,7 @@ This document explains every repository file, derives the mathematics used by th
 
 > Status snapshot: project status and current validation results are maintained in [`docs/STATUS.md`](docs/STATUS.md).
 > Quaternion feedback theory and implementation are documented in [`docs/ATTITUDE_CONTROL.md`](docs/ATTITUDE_CONTROL.md).
+> Orbit, 6-DOF, and environment fidelity are documented in [`docs/SPACE_ENVIRONMENT.md`](docs/SPACE_ENVIRONMENT.md).
 
 Run the closed-loop validation suite from `matlab/simulations` with
 `runAttitudeSlewSuite`. It covers principal-axis and arbitrary-axis slews,
