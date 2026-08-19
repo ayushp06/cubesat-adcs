@@ -4,6 +4,10 @@ Updated: 2026-08-19
 
 ## Current phase
 
+INT-001 integration is in progress. The 16-state truth plant now combines the
+validated 6-DOF environment dynamics with reaction wheels and magnetorquers;
+the estimator-in-the-loop scenario and campaign evidence remain open.
+
 FSW-003 is complete: the portable C++ flight core passed a clean strict build,
 11 GoogleTests, deterministic MATLAB cross-validation, and all relevant MATLAB
 reference suites. The separate end-to-end integrated digital twin remains open.
@@ -122,6 +126,7 @@ Executed with GNU Octave on 2026-08-19:
 | `runProjectVerification` | PASS — 15 checks, 12/12 Monte Carlo, SIL, plots/tables |
 | Clean C++ FSW-003 gate | PASS — strict Release build, 11/11 GoogleTests, regenerated MATLAB parity vectors |
 | Relevant MATLAB reference suites | PASS — quaternion, determination, MEKF, guidance, PD/LQR, modes |
+| `testIntegratedSpacecraftDynamics` | PASS — orbit, wheel, rod, and all-effects derivative checks |
 
 These results describe only the commands above; no unrun result is implied.
 
