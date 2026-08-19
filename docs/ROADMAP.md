@@ -27,7 +27,7 @@ automated regression tests, and an updated project status before completion.
 - [x] Add a validated ECI two-body/J2 orbit propagator and time handling.
 - [x] Add gravity-gradient torque with analytical limiting cases.
 - [x] Add configurable aerodynamic, solar-pressure, and magnetic disturbances.
-- [ ] Keep environment and spacecraft truth state independent of flight state.
+- [x] Keep environment and spacecraft truth state independent of flight state.
 
 ## Phase 3 — Sensor truth and measurement models
 

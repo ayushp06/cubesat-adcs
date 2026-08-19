@@ -106,3 +106,24 @@ is required.
 Run `octave --quiet matlab/tests/testSpaceEnvironment.m` from the repository
 root. It checks gravity-gradient limiting cases, density, drag, Sun/eclipse
 geometry, SRP shadowing, and dipole field/torque relations.
+
+## 10. Coupled 13-state propagation
+
+`fullSpacecraftDynamics` assembles the independent modules without hidden
+state. Its derivative is `[v_I; a_I; qdot_IB; omegadot_BI_B]`. Translation
+includes two-body gravity and configurable J2, drag, and solar pressure.
+Rotation uses Euler rigid-body dynamics with configurable gravity-gradient,
+aerodynamic, solar-pressure, and residual-magnetic torques. Translation and
+rotation couple only through physical force/torque inputs and attitude-based
+projected area; no estimator or flight state is present.
+
+`truthModelParams` exposes effect switches for analytical isolation and
+regression testing. These are fidelity switches, not hidden physical values;
+all constants remain in the Earth and spacecraft parameter structures.
+
+Run `testFullSpacecraftDynamics` from `matlab/tests` for the conservative
+one-orbit invariant check and all-effects derivative check. Run
+`run6DOFValidation` from `matlab/simulations` for the reproducible 400 km,
+51.6-degree, all-effects orbit. On 2026-08-19 GNU Octave completed 5553.624 s,
+ending at 399.975 km altitude with maximum quaternion norm error `1.336e-08`.
+That altitude is a model result, not an accuracy claim against ephemeris data.

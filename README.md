@@ -2,7 +2,7 @@
 
 ## A beginner-to-research-grade guide to the repository as it exists today
 
-This repository is the beginning of an **Attitude Determination and Control System (ADCS) digital twin** for a nominal 3U CubeSat. The code currently models attitude representation, torque-free rigid-body rotation, and angular-momentum exchange with one or three reaction wheels. It does **not yet** model orbit propagation, sensors, attitude estimation, environmental torques, guidance, feedback control, motor electrical dynamics, or momentum dumping.
+This repository is an **Attitude Determination and Control System (ADCS) digital twin** for a nominal 3U CubeSat. It now includes validated attitude control and a coupled 13-state, 6-DOF truth model with two-body/J2 orbit dynamics and modular environmental forces, torques, illumination, and magnetic field. Sensors, estimation, operational ephemerides, motor electrical dynamics, and momentum dumping remain future work.
 
 This document explains every repository file, derives the mathematics used by the code, shows how information flows through each simulation, records what has been verified, and separates implemented behavior from future intent.
 
