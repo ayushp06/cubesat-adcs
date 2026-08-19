@@ -62,6 +62,6 @@ These results describe only the commands above; no unrun result is implied.
 
 ## Latest good commit
 
-`291e076` (`docs: establish project roadmap and status`) is the latest validated
-project-memory baseline. The working tree also contains the pre-existing
-uncommitted three-wheel speed-limit edit described above.
+`5cbb579` (`fix: restore one-wheel dynamics simulation`) is the latest validated
+technical commit. The working tree also contains the pre-existing uncommitted
+three-wheel speed-limit edit described above.
