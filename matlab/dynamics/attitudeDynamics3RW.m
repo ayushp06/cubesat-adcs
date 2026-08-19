@@ -19,12 +19,11 @@ function xdot = attitudeDynamics3RW( ...
     
     wheelSpeed = x(8:10);
     
-    %% Saturate motor torque
-    
-    motorTorque = max( ...
-        min(motorTorque, rw.maxTorque), ...
-        -rw.maxTorque);
-    
+    %% Apply actuator limits
+
+    motorTorque = ...
+        limitReactionWheelTorque(motorTorque, wheelSpeed, rw);
+
     %% Reaction-wheel acceleration
     
     wheelAccel = motorTorque ./ rw.J;

@@ -7,8 +7,9 @@ Updated: 2026-08-19
 Phase 1 — Dynamics foundation and automated validation.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
-interface is repaired and covered by an analytical regression test. The next
-milestone is broader automated dynamics invariant testing.
+interface is repaired and covered by an analytical regression test. Automated
+plant invariants and shared reaction-wheel actuator limits are now validated.
+The next milestone is quaternion feedback control.
 
 ## Completed and validated
 
@@ -25,16 +26,16 @@ milestone is broader automated dynamics invariant testing.
   executable demonstration.
 - One-wheel momentum exchange using the first configured wheel, checked against
   its analytical acceleration and total-momentum invariant.
+- Shared reaction-wheel torque clipping and directional speed limiting; braking
+  commands remain available at either speed boundary.
+- Automated general torque-free energy/inertial-momentum and three-wheel total
+  momentum regression checks with explicit ODE tolerances.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- An uncommitted pre-existing edit in `attitudeDynamics3RW.m` adds wheel-speed
-  limiting but duplicates the wheel-acceleration calculation; it is not yet
-  validated or included in Stage 0 commits.
-- Dynamics invariants are plotted or printed, not enforced by automated tests.
-- Three-wheel speed-limit behavior has no regression test.
-- Default `ode45` tolerances are used without a convergence study.
+- Demonstration scripts still use default `ode45` tolerances; automated
+  dynamics tests use explicit tolerances, but no convergence study exists yet.
 - Orbit, environmental torques, sensors, estimation, guidance, control,
   momentum dumping, C++ flight software, CMake, and Simulink integration are
   not implemented.
@@ -49,16 +50,17 @@ Executed with GNU Octave on 2026-08-19:
 | `runTorqueFreeRotation` | PASS — max normalized quaternion error `2.220e-16` |
 | `runThreeWheelTest` | PASS — completed without runtime error |
 | `testReactionWheelDynamics` | PASS — derivative, final speed, and momentum assertions |
+| `testDynamicsFoundation` | PASS — energy, inertial/total momentum, torque, and speed-limit assertions |
 | `runReactionWheelTest` | PASS — max momentum error `4.337e-19 N m s` |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add one automated dynamics test covering analytical principal-axis motion,
-   internal momentum conservation, torque clipping, and speed limiting.
-2. Validate and clean the existing three-wheel speed-limit edit.
-3. Record explicit ODE tolerances and convergence evidence.
+1. Implement and validate quaternion attitude error, PD control, and
+   reaction-wheel allocation.
+2. Add closed-loop slew scenarios and performance metrics.
+3. Record a solver convergence study for representative closed-loop cases.
 
 ## Latest good commit
 

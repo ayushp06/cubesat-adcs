@@ -22,11 +22,11 @@ function xdot = attitudeDynamicsRW(~, x, sc, rw, motorTorque)
     %% Saturate motor torque
 
     wheelInertia = rw.J(1);
-    maxTorque = rw.maxTorque(1);
-    
-    motorTorque = max( ...
-        min(motorTorque, maxTorque), ...
-        -maxTorque);
+    rw1.J = wheelInertia;
+    rw1.maxTorque = rw.maxTorque(1);
+    rw1.maxSpeed = rw.maxSpeed(1);
+    motorTorque = ...
+        limitReactionWheelTorque(motorTorque, wheelSpeed, rw1);
     
     %% Reaction wheel acceleration
     

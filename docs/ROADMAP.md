@@ -18,8 +18,8 @@ automated regression tests, and an updated project status before completion.
 - [x] Implement torque-free rigid-body propagation.
 - [x] Implement ideal one-wheel and three-wheel momentum exchange.
 - [x] Repair the one-wheel parameter interface regression.
-- [ ] Add automated rigid-body and reaction-wheel invariant tests.
-- [ ] Complete and test reaction-wheel torque and speed saturation behavior.
+- [x] Add automated rigid-body and reaction-wheel invariant tests.
+- [x] Complete and test reaction-wheel torque and speed saturation behavior.
 - [ ] Set explicit solver tolerances and document convergence evidence.
 
 ## Phase 2 — Orbit and disturbance truth models

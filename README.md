@@ -95,11 +95,13 @@ matlab/
 | `matlab/dynamics/attitudeDynamics.m` | Seven-state rigid-body attitude and rate differential equation. | Used by torque-free simulation. |
 | `matlab/dynamics/attitudeDynamicsRW.m` | Eight-state spacecraft plus wheel 1 on the X axis. | Uses the first entry of the three-wheel parameter set. |
 | `matlab/dynamics/attitudeDynamics3RW.m` | Ten-state coupled spacecraft plus three orthogonal wheels model. | Used by three-wheel simulation. |
+| `matlab/dynamics/limitReactionWheelTorque.m` | Applies wheel torque and directional speed limits. | Shared by one- and three-wheel dynamics. |
 | `matlab/simulations/runTorqueFreeRotation.m` | Runs 100 s of torque-free principal-axis rotation and plots invariants. | Runs in Octave. |
 | `matlab/simulations/runReactionWheelTest.m` | Demonstrates one-wheel momentum exchange for 10 s. | Runs in Octave. |
 | `matlab/simulations/runThreeWheelTest.m` | Applies constant commands to three wheels for 10 s and plots body/wheel rates. | Runs in Octave. |
 | `matlab/tests/testQuaternionMath.m` | Seven assertion-based checks of quaternion utilities and conventions. | All pass in Octave. |
 | `matlab/tests/testReactionWheelDynamics.m` | Checks one-wheel analytical acceleration and momentum conservation. | All pass in Octave. |
+| `matlab/tests/testDynamicsFoundation.m` | Checks plant invariants and wheel actuator limits. | All pass in Octave. |
 
 The Git history shows four development stages: the quaternion mathematics and conventions, relocation of the test, addition of torque-free and one-wheel dynamics, and finally addition of the three-wheel model.
 
@@ -619,15 +621,20 @@ Combining the body and wheel equations gives
 
 which means the inertial derivative is zero. Thus the ideal model conserves total inertial angular momentum under purely internal motor torque.
 
-### 8.3 Torque saturation
+### 8.3 Torque and speed saturation
 
-Both wheel dynamics functions clip commands using element-wise `min` and `max`:
+Both wheel dynamics functions call `limitReactionWheelTorque`. It first clips
+each command using element-wise `min` and `max`:
 
 \[
 u_i\leftarrow\max(\min(u_i,u_{i,\max}),-u_{i,\max}).
 \]
 
-This represents a symmetric motor torque limit. It is an instantaneous hard saturation; the model includes no voltage, current, thermal, speed-dependent torque curve, friction, or control electronics.
+At or beyond a positive speed limit, positive torque is blocked; at or beyond a
+negative speed limit, negative torque is blocked. Torque directed back toward
+the allowed speed range remains available, so a saturated wheel can brake. The
+model uses ideal hard limits and does not include voltage, current, thermal,
+speed-dependent torque curves, friction, or control electronics.
 
 ---
 
@@ -912,6 +919,7 @@ runThreeWheelTest
 ```sh
 octave --quiet --eval "cd('matlab/tests'); testQuaternionMath"
 octave --quiet --eval "cd('matlab/tests'); testReactionWheelDynamics"
+octave --quiet --eval "cd('matlab/tests'); testDynamicsFoundation"
 octave --quiet --eval "cd('matlab/simulations'); runTorqueFreeRotation"
 octave --quiet --eval "cd('matlab/simulations'); runThreeWheelTest"
 ```
@@ -930,10 +938,9 @@ These are not all “bugs.” Some are deliberate early-model simplifications. T
 
 ### 14.1 Confirmed implementation issues
 
-1. **Configured wheel speed limits are not yet validated.** The working tree contains an incomplete three-wheel limiter edit, but the committed model permits unlimited wheel speed.
-2. **Relative-path execution assumption.** Simulation and older test scripts generally fail to find folders when launched from a different current directory.
-3. **Unused variables/paths.** `wheelSpeed` is read but unused in `attitudeDynamicsRW`; some simulations add the tests directory but never call it.
-4. **Autosave and empty artifacts.** `spacecraftParams.asv` duplicates the source, and `math/.m` is empty. Neither contributes behavior.
+1. **Relative-path execution assumption.** Simulation and older test scripts generally fail to find folders when launched from a different current directory.
+2. **Unused variables/paths.** Some simulations add the tests directory but never call it.
+3. **Autosave and empty artifacts.** `spacecraftParams.asv` duplicates the source, and `math/.m` is empty. Neither contributes behavior.
 
 ### 14.2 Physics not yet represented
 
