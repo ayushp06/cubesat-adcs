@@ -57,7 +57,8 @@ dynamicsFcn = @(t,x) attitudeDynamics( ...
 
 %% Integrate
 
-[t, x] = ode45(dynamicsFcn, tspan, x0);
+options = odeset("RelTol", 1e-8, "AbsTol", 1e-10);
+[t, x] = ode45(dynamicsFcn, tspan, x0, options);
 
 %% Extract states
 

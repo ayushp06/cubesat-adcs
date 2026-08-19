@@ -61,7 +61,8 @@ dynamicsFcn = @(t,x) attitudeDynamicsRW( ...
 
 %% Run simulation
 
-[t, x] = ode45(dynamicsFcn, tspan, x0);
+options = odeset("RelTol", 1e-8, "AbsTol", 1e-10);
+[t, x] = ode45(dynamicsFcn, tspan, x0, options);
 
 %% Extract states
 

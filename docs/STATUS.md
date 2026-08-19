@@ -4,13 +4,15 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 1 — Dynamics foundation and automated validation.
+Phase 1 is complete; Phase 2 — orbit and disturbance truth models — is next.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
 plant invariants and shared reaction-wheel actuator limits are now validated.
-Quaternion error, PD feedback, and three-wheel allocation are analytically
-tested. The next milestone is closed-loop slew validation and metrics.
+Quaternion error, PD feedback, three-wheel allocation, closed-loop slew
+scenarios, performance metrics, and representative solver convergence are
+validated. The MATLAB attitude-control foundation requested for Stage 1 is
+complete.
 
 ## Completed and validated
 
@@ -33,17 +35,21 @@ tested. The next milestone is closed-loop slew validation and metrics.
   momentum regression checks with explicit ODE tolerances.
 - Shortest-path quaternion attitude error, inertia-scaled quaternion PD control,
   and sign-correct three-wheel torque allocation.
+- Closed-loop 90-degree X/Y/Z slews, an arbitrary-axis slew, and an
+  arbitrary-axis slew with nonzero initial rates on all body axes.
+- Metrics for pointing error, settling time, overshoot, body rate, applied
+  control effort, wheel speed, and wheel momentum.
+- Explicit ODE tolerances in simulations and a two-tolerance convergence check.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- Demonstration scripts still use default `ode45` tolerances; automated
-  dynamics tests use explicit tolerances, but no convergence study exists yet.
-- Orbit, environmental torques, sensors, estimation, guidance, control,
-  momentum dumping, C++ flight software, CMake, and Simulink integration are
-  not implemented.
+- Orbit, environmental torques, sensors, estimation, pointing-mode guidance,
+  detumble, momentum dumping, C++ flight software, CMake, and Simulink
+  integration are not implemented. The current controller uses truth state and
+  a fixed target.
 
-## Baseline test status
+## Validation status
 
 Executed with GNU Octave on 2026-08-19:
 
@@ -55,17 +61,20 @@ Executed with GNU Octave on 2026-08-19:
 | `testReactionWheelDynamics` | PASS — derivative, final speed, and momentum assertions |
 | `testDynamicsFoundation` | PASS — energy, inertial/total momentum, torque, and speed-limit assertions |
 | `testAttitudeControl` | PASS — error convention, feedback signs, and allocation assertions |
-| `runReactionWheelTest` | PASS — max momentum error `4.337e-19 N m s` |
+| `testAttitudeSlews` | PASS — five scenarios, actuator bounds, metrics, and solver convergence |
+| `runReactionWheelTest` | PASS — max momentum error `2.168e-19 N m s` |
+| `runAttitudeSlewSuite` | PASS — five scenarios completed and metrics reported |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add closed-loop slew scenarios and performance metrics.
-2. Record a solver convergence study for representative closed-loop cases.
+1. Begin Phase 2 with validated orbit/time/frame handling and a
+   gravity-gradient torque limiting case.
+2. Preserve the current truth-state controller as the control-law reference
+   when sensor and estimator states are introduced.
 
 ## Latest good commit
 
-`5cbb579` (`fix: restore one-wheel dynamics simulation`) is the latest validated
-technical commit. The working tree also contains the pre-existing uncommitted
-three-wheel speed-limit edit described above.
+`64fff93` (`feat: add quaternion PD attitude control`) is the latest validated
+technical commit before the closed-loop slew suite.

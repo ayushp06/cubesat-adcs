@@ -9,6 +9,10 @@ This document explains every repository file, derives the mathematics used by th
 > Status snapshot: project status and current validation results are maintained in [`docs/STATUS.md`](docs/STATUS.md).
 > Quaternion feedback theory and implementation are documented in [`docs/ATTITUDE_CONTROL.md`](docs/ATTITUDE_CONTROL.md).
 
+Run the closed-loop validation suite from `matlab/simulations` with
+`runAttitudeSlewSuite`. It covers principal-axis and arbitrary-axis slews,
+nonzero initial body rates, actuator limits, and performance metrics.
+
 ---
 
 ## 1. What problem is this project solving?

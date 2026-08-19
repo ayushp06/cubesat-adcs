@@ -110,5 +110,49 @@ The automated control test verifies:
 - damping torque opposite to body rate;
 - equal-and-opposite torque from wheel allocation.
 
-Closed-loop scenario validation, performance metrics, and solver convergence
-are documented with the slew suite once generated.
+## 7. Performance metrics
+
+`computeSlewMetrics` reports:
+
+- **pointing error:** shortest quaternion rotation angle to the target;
+- **settling time:** first sampled time after which pointing error remains at or
+  below 1 degree and body-rate magnitude remains at or below 0.1 degree/s;
+- **overshoot:** maximum target-axis rotation beyond the commanded angle;
+- **body rate:** peak magnitude and peak absolute component on each axis;
+- **control effort:** time integral of absolute applied motor torque per wheel;
+- **wheel speed:** peak absolute speed per wheel;
+- **wheel momentum:** peak absolute momentum per wheel and peak norm of the
+  assembly momentum vector.
+
+Applied, not merely requested, motor torque is used for effort. Overshoot is a
+target-axis progress measure; it does not claim that the multi-axis trajectory
+follows a unique Euler-angle path.
+
+## 8. Validated slew scenarios
+
+The suite starts from identity attitude, commands a 90-degree shortest-path
+rotation, and runs for 180 s. The arbitrary axis is `[1; 2; 3] / sqrt(14)`.
+The final case starts with body rate `[1; -0.5; 0.75]` degree/s. GNU Octave
+produced the following results on 2026-08-19 with `RelTol=1e-8` and
+`AbsTol=1e-10`:
+
+| Case | Final error (deg) | Settling (s) | Overshoot (deg) | Peak rate (deg/s) | Peak wheel speed (rad/s) | Peak total wheel momentum (N m s) |
+|---|---:|---:|---:|---:|---:|---:|
+| X 90° | < 0.0001 | 52.6 | 0.1114 | 3.7809 | 44.8725 | 0.00224363 |
+| Y 90° | < 0.0001 | 51.8 | 0.1128 | 3.8371 | 40.1822 | 0.00200911 |
+| Z 90° | < 0.0001 | 48.6 | 0.1169 | 4.0122 | 9.80372 | 0.000490186 |
+| Arbitrary axis | < 0.0001 | 48.8 | 0.1167 | 4.0054 | 22.3178 | 0.00135139 |
+| Arbitrary + initial rate | < 0.0001 | 59.2 | 0.9189 | 4.3228 | 31.3377 | 0.00160478 |
+
+Per-wheel control effort and momentum are printed by
+`runAttitudeSlewSuite.m`. The largest peak wheel speed is only 7.14% of the
+configured 628.319 rad/s limit.
+
+A convergence check repeats the arbitrary-axis case at `1e-7/1e-9` and
+`1e-9/1e-11` relative/absolute tolerances. At the printed precision, final
+attitude difference and settling-time difference were both zero; the automated
+test requires final attitude disagreement below `1e-4` degree.
+
+These are deterministic ideal-model results, not hardware performance claims.
+Truth state is fed directly to the controller; environmental torques, sensor
+errors, estimation, delays, sampling, and flexible dynamics remain future work.
