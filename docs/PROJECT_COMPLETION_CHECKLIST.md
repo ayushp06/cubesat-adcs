@@ -6,9 +6,9 @@ and adds the non-hardware completion gates exposed by the roadmap.
 
 ## Completion decision
 
-**NOT COMPLETE.** The MATLAB/Octave components are verified, but two
-non-hardware core requirements are PARTIAL: the portable C++ flight algorithm
-stack (`FSW-003`) and the fully closed-loop integrated digital twin (`INT-001`).
+**NOT COMPLETE.** The MATLAB/Octave components and portable C++ flight stack
+are verified. The fully closed-loop integrated digital twin (`INT-001`) remains
+the sole PARTIAL non-hardware core requirement.
 Physical HIL and calibration are BLOCKED by unavailable selected hardware and
 are not used to decide component-level software correctness.
 
@@ -45,7 +45,7 @@ are not used to decide component-level software correctness.
 | MOD-001 | PASS | `testModeManagement` and fault demo: requested sequence passes | `verification_results.csv` | test/demo logs | `initializeAdcsMode.m`, `updateAdcsMode.m`, `adcsModeCommand.m` |
 | FSW-001 | PARTIAL | `adcs_sil` validates sizes/CRC/rollover; no live serial transport | protocol table in `HIL_ARCHITECTURE.md` | `clean_build.log` | `protocol.hpp`, `timing.hpp` |
 | FSW-002 | PASS | MATLAB/C++ known-vector PD signs pass | Figure N/A; cross-language vector | test/build logs | `quaternionPDController.m`, `control.hpp` |
-| FSW-003 | PARTIAL | No MEKF/guidance/mode C++ tests; only PD is ported | N/A | clean build log shows one SIL target | `cpp/include/adcs` |
+| FSW-003 | PASS | clean strict build; 11/11 GoogleTests; MATLAB parity within `2e-15`--`2e-10` | reference CSV/tolerance table | `fsw003_clean_build.log`, `fsw003_gtest.log`, `fsw003_matlab_reference.log` | `math.hpp`, `estimation.hpp`, `guidance.hpp`, `control.hpp`, `mode.hpp`, `config.hpp`, `flight.hpp` |
 | INT-001 | PARTIAL | No complete estimator-in-the-loop actuator scenario | component figures only | demo log | component simulations; no integrated entry point |
 | SIM-001 | NOT APPLICABLE | No requirement showing Simulink adds verification value | N/A | N/A | MATLAB/Octave reference is authoritative |
 | VER-001 | PASS | 12/12 seeded MEKF trials meet thresholds | `monte_carlo.png`, `monte_carlo.csv` | `demo_campaign.log` | `runMonteCarloVerification.m`, `runProjectVerification.m` |
@@ -62,14 +62,12 @@ are not used to decide component-level software correctness.
 - [x] Native build directory deleted and configured/built/tested from scratch.
 - [x] Major 15-check demonstration campaign reproduced with 12 fixed seeds.
 - [x] README, STATUS, ROADMAP, V&V matrix, HIL boundary, and results reconciled.
-- [ ] All non-hardware core requirements PASS (`FSW-003`, `INT-001` remain).
+- [ ] All non-hardware core requirements PASS (`INT-001` remains).
 
 ## Required work before declaring the software project complete
 
-1. Port and cross-check MEKF, guidance, allocation, magnetic control, and mode
-   management in the portable C++ flight core with fixed-memory interfaces.
-2. Add a seeded end-to-end scenario that closes truth plant → sensor packets →
+1. Add a seeded end-to-end scenario that closes truth plant → sensor packets →
    estimator → guidance/modes → actuator commands → truth plant, including
    dropouts, saturation, desaturation, and a fault transition.
-3. Rerun this audit; only then may the non-hardware software project be marked
+2. Rerun this audit; only then may the non-hardware software project be marked
    complete. Physical HIL/calibration remain separate hardware gates.

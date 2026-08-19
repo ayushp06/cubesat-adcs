@@ -62,7 +62,7 @@ automated regression tests, and an updated project status before completion.
 ## Phase 7 — Flight-software implementation
 
 - [x] Define deterministic, unit-explicit C++ interfaces.
-- [ ] Port validated estimation and control algorithms from the truth model.
+- [x] Port validated estimation and control algorithms from the truth model.
 - [x] Add CMake builds and automated C++ unit/integration tests.
 - [x] Cross-check MATLAB/Simulink and C++ outputs from shared test vectors.
 

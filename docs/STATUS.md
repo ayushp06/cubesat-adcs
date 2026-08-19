@@ -4,9 +4,9 @@ Updated: 2026-08-19
 
 ## Current phase
 
-The portable C++ algorithm candidate is implemented and passing incremental
-GoogleTest/MATLAB-vector checks. FSW-003 remains PARTIAL until the required
-clean build and complete relevant-suite evidence are recorded.
+FSW-003 is complete: the portable C++ flight core passed a clean strict build,
+11 GoogleTests, deterministic MATLAB cross-validation, and all relevant MATLAB
+reference suites. The separate end-to-end integrated digital twin remains open.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -80,8 +80,8 @@ truth state to estimator functions.
 
 ## Known incomplete or unvalidated work
 
-- The new C++ port has not yet passed its final clean verification gate.
-  Simulink and physical HIL are not implemented or executed. Environment,
+- Live serial transport, Simulink, and physical HIL are not implemented or
+  executed. Environment,
   sensor, and actuator models use engineering assumptions rather than selected
   flight-hardware data.
 - No single scenario closes the full plant-to-sensor-to-estimator-to-guidance/
@@ -120,17 +120,17 @@ Executed with GNU Octave on 2026-08-19:
 | CMake/`adcs_sil` | PASS — release build, packet sizes/CRC, timer rollover, PD signs |
 | `testVerificationScenarios` | PASS — nadir geometry, fault sequence, two seeded MEKF runs |
 | `runProjectVerification` | PASS — 15 checks, 12/12 Monte Carlo, SIL, plots/tables |
-| Incremental C++ GoogleTest | PASS — 9 tests including MATLAB reference-vector parity |
+| Clean C++ FSW-003 gate | PASS — strict Release build, 11/11 GoogleTests, regenerated MATLAB parity vectors |
+| Relevant MATLAB reference suites | PASS — quaternion, determination, MEKF, guidance, PD/LQR, modes |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Port the validated MEKF, guidance, and mode-management algorithms to C++.
+1. Close the full plant/sensor/estimator/guidance/control/actuator loop (INT-001).
 2. Execute processor/HIL tests only when physical hardware is available.
 
 ## Latest good commit
 
-`d9acbf5` (`docs: publish final verified project evidence`) is the audited
-implementation baseline. The completion-audit commit changes evidence and
-status documentation only.
+`161fe85` (`test: verify portable C++ ADCS stack`) is the latest clean verified
+technical baseline.

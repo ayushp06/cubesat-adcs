@@ -13,8 +13,8 @@ rotating body coordinates into ECI. Headers are under `cpp/include/adcs`:
 | Header | Deterministic interface |
 |---|---|
 | `math.hpp` | quaternion algebra, DCM conversion, skew matrix |
-| `estimation.hpp` | TRIAD/QUEST reference solution and six-state gyro-bias MEKF |
-| `guidance.hpp` | inertial, Sun/safe, nadir/LVLH, cubic-time slew references |
+| `estimation.hpp` | QUEST reference solution and six-state gyro-bias MEKF |
+| `guidance.hpp` | TRIAD, inertial, Sun/safe, nadir/LVLH, cubic-time slew references |
 | `control.hpp` | quaternion PD, configured LQR, fixed-size wheel allocation |
 | `mode.hpp` | initialization/detumble/safe/nominal/slew/desaturation/fault logic |
 | `config.hpp` | explicit gains, limits, noise, and mode thresholds |

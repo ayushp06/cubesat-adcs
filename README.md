@@ -143,8 +143,10 @@ artifacts            generated final evidence
 - Spacecraft, sensor, wheel, and rod parameters are assumptions rather than
   measurements from selected hardware.
 - MEKF references do not include full navigation/environment uncertainty.
-- C++ currently covers protocol, timing, quaternion math, and PD SIL; the full
-  MEKF/guidance/mode stack remains MATLAB/Octave reference code.
+- C++ covers quaternion/frame math, QUEST/MEKF, guidance, PD/LQR, wheel
+  allocation, modes, configuration/interfaces, protocol, and timing. The
+  environment and truth plant intentionally remain MATLAB/Octave simulation
+  code rather than flight code.
 - No Simulink, real-time target, processor-in-loop, physical HIL, environmental
   qualification, or on-orbit test has been executed.
 - Twelve-run Monte Carlo is regression evidence, not mission reliability proof.
