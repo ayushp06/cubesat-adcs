@@ -4,7 +4,7 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 2 — orbit and disturbance truth models — is in progress.
+Phase 2 — orbit and disturbance truth models — is complete.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -12,8 +12,8 @@ plant invariants and shared reaction-wheel actuator limits are now validated.
 Quaternion error, PD feedback, three-wheel allocation, closed-loop slew
 scenarios, performance metrics, and representative solver convergence are
 validated. The MATLAB attitude-control foundation requested for Stage 1 is
-complete. ECI two-body/J2 translation and modular force/torque environments are
-now validated; coupled 6-DOF propagation is next.
+complete. ECI two-body/J2 translation, modular force/torque environments, and
+coupled 13-state 6-DOF propagation are validated. Phase 3 sensor truth is next.
 
 ## Completed and validated
 
@@ -46,14 +46,16 @@ now validated; coupled 6-DOF propagation is next.
 - Independent gravity-gradient, exponential-atmosphere drag, aerodynamic
   torque, analytic Sun, cylindrical eclipse, solar-pressure, centered-dipole
   magnetic-field, and residual-dipole torque models.
+- Coupled 13-state ECI translation and body rotation with independently
+  selectable environment effects and no estimator/flight-state dependency.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- Orbit, environmental torques, sensors, estimation, pointing-mode guidance,
-  detumble, momentum dumping, C++ flight software, CMake, and Simulink
-  integration are not implemented. The current controller uses truth state and
-  a fixed target.
+- Sensors, estimation, pointing-mode guidance, detumble, momentum dumping, C++
+  flight software, CMake, and Simulink integration are not implemented. The
+  current controller uses truth state and a fixed target. Environment models
+  are engineering fidelity, not operational ephemeris/atmosphere/IGRF models.
 
 ## Validation status
 
@@ -73,16 +75,18 @@ Executed with GNU Octave on 2026-08-19:
 | `testOrbitDynamics` | PASS — one-orbit state/invariants and J2 known answers |
 | `runOrbitValidation` | PASS — energy `7.236e-11`, momentum `3.618e-11` relative error |
 | `testSpaceEnvironment` | PASS — force, torque, illumination, and field checks |
+| `testFullSpacecraftDynamics` | PASS — coupled derivative, orbit invariants, quaternion norm |
+| `run6DOFValidation` | PASS — 5553.624 s all-effects propagation, quaternion error `1.336e-08` |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Couple translation and rotation in the 13-state 6-DOF truth propagator.
-3. Preserve the current truth-state controller as the control-law reference
+1. Add deterministic gyroscope, magnetometer, and Sun-sensor truth interfaces.
+2. Preserve the current truth-state controller as the control-law reference
    when sensor and estimator states are introduced.
 
 ## Latest good commit
 
-`eda7348` (`feat: validate closed-loop attitude slews`) is the latest validated
+`c69c64f` (`feat: complete coupled 6-dof truth model`) is the latest validated
 technical commit.
