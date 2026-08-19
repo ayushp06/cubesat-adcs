@@ -1,0 +1,55 @@
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 11 tests from 9 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from Math
+[ RUN      ] Math.QuaternionConvention
+[       OK ] Math.QuaternionConvention (0 ms)
+[----------] 1 test from Math (0 ms total)
+
+[----------] 1 test from Guidance
+[ RUN      ] Guidance.PointingAndSlew
+[       OK ] Guidance.PointingAndSlew (0 ms)
+[----------] 1 test from Guidance (0 ms total)
+
+[----------] 1 test from Control
+[ RUN      ] Control.PdLqrAndAllocation
+[       OK ] Control.PdLqrAndAllocation (0 ms)
+[----------] 1 test from Control (0 ms total)
+
+[----------] 1 test from Modes
+[ RUN      ] Modes.ReferenceSequence
+[       OK ] Modes.ReferenceSequence (0 ms)
+[----------] 1 test from Modes (0 ms total)
+
+[----------] 1 test from FlightApi
+[ RUN      ] FlightApi.DeterministicEstimateToActuatorBoundary
+[       OK ] FlightApi.DeterministicEstimateToActuatorBoundary (0 ms)
+[----------] 1 test from FlightApi (0 ms total)
+
+[----------] 2 tests from Estimation
+[ RUN      ] Estimation.MekfPredictionAndCorrection
+[       OK ] Estimation.MekfPredictionAndCorrection (0 ms)
+[ RUN      ] Estimation.QuestKnownAttitude
+[       OK ] Estimation.QuestKnownAttitude (0 ms)
+[----------] 2 tests from Estimation (0 ms total)
+
+[----------] 1 test from Protocol
+[ RUN      ] Protocol.PackedLayoutAndCrc
+[       OK ] Protocol.PackedLayoutAndCrc (0 ms)
+[----------] 1 test from Protocol (0 ms total)
+
+[----------] 1 test from Timing
+[ RUN      ] Timing.UnsignedRollover
+[       OK ] Timing.UnsignedRollover (0 ms)
+[----------] 1 test from Timing (0 ms total)
+
+[----------] 2 tests from CrossValidation
+[ RUN      ] CrossValidation.MathGuidanceControlAndModes
+[       OK ] CrossValidation.MathGuidanceControlAndModes (0 ms)
+[ RUN      ] CrossValidation.Mekf
+[       OK ] CrossValidation.Mekf (0 ms)
+[----------] 2 tests from CrossValidation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 11 tests from 9 test suites ran. (0 ms total)
+[  PASSED  ] 11 tests.

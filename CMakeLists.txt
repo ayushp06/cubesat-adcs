@@ -7,6 +7,7 @@ add_executable(adcs_sil
   cpp/tests/test_math_guidance.cpp
   cpp/tests/test_control_modes.cpp
   cpp/tests/test_estimation.cpp
+  cpp/tests/test_protocol_timing.cpp
   cpp/tests/test_cross_validation.cpp)
 target_include_directories(adcs_sil PRIVATE cpp/include)
 target_compile_features(adcs_sil PRIVATE cxx_std_17)
