@@ -63,3 +63,48 @@ eigenvalue. The result is conjugated from reference-to-body into the repository
 `q_IB` convention. This eigenvalue form is the q-method reference solution;
 for the small vector counts here it is clearer than a specialized scalar-root
 iteration and has the same Wahba optimum.
+
+## 5. Multiplicative extended Kalman filter
+
+The MEKF is primary because adding four quaternion components in an ordinary
+EKF conflicts with the unit-norm constraint. It keeps a normalized nominal
+quaternion and estimates `delta_x = [delta_theta_B; delta_b_g]`. Locally,
+`q_true = q_hat x [1; delta_theta/2]`.
+
+The nominal attitude integrates the bias-corrected gyro:
+`qdot_hat = 0.5 q_hat x [0; gyro_m - b_hat]`, with constant nominal bias.
+The small-error model is
+
+`delta_theta_dot = -[omega x] delta_theta - delta_b - n_g`,
+`delta_b_dot = n_b`.
+
+Therefore `F = [-[omega x], -I; 0, 0]` and the 100 Hz implementation uses
+`Phi = I + F dt`. Configurable gyro white noise and bias random walk form the
+process covariance. Use an exact matrix exponential if the sample period grows
+large.
+
+For inertial reference `r_I`, predicted body direction is
+`b_hat = C_IB(q_hat)^T r_I`. The normalized-vector residual is
+`y = b_measured - b_hat`, with `H = [[b_hat x], 0]`. Asynchronous vectors may
+be stacked. The usual Kalman gain corrects the local attitude and bias; the
+attitude correction is injected multiplicatively. The Joseph covariance form
+preserves symmetry and positive semidefiniteness. Each update records the
+innovation, innovation covariance, and normalized innovation squared (NIS).
+No truth value enters these estimator functions.
+
+An additive quaternion EKF is intentionally omitted: it is less natural for
+the unit-quaternion manifold and would duplicate the MEKF without improving
+the reference stack.
+
+## 6. Noisy/dropout validation
+
+`simulateMekfScenario(21)` keeps truth solely in its sensor-generation and
+metric sections. The Sun sensor is unavailable from 20--35 s and the
+magnetometer from 25--32 s, creating a seven-second gyro-only interval. Initial
+attitude error is 20 degrees and gyro-bias error is about 0.39 deg/s.
+
+GNU Octave on 2026-08-19 produced 0.8300 degree final attitude error, 1.3298
+degree RMS error over the final ten seconds, and 0.01262 deg/s final bias
+error. Covariance remained positive semidefinite (minimum eigenvalue
+`1.330e-08`); maximum vector-update NIS was 53.768 during convergence. Run
+`runMekfValidation` to reproduce all metrics.
