@@ -4,7 +4,8 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 5 — guidance and control — is in progress.
+Phases 5 and 6 — guidance, control, actuator allocation, and momentum
+management — are complete.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -63,15 +64,18 @@ truth state to estimator functions.
   controllability, stability, and PD/PID/LQR performance checks.
 - Three-axis saturated magnetorquer actuation, B-dot detumbling, and
   field-achievable reaction-wheel momentum unloading.
+- Priority-ordered initialization/detumble/safe/nominal/slew/desaturation/fault
+  mode management with hysteresis and explicit actuator ownership.
+- Minimum-norm reaction-wheel allocation validated for orthogonal, redundant,
+  and one-wheel-degraded full-rank geometries.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- Pointing-mode guidance, detumble, momentum dumping, C++ flight software,
-  CMake, and Simulink integration are not implemented. The current controller
-  still uses truth state and a fixed target; estimator/controller integration
-  belongs to the integrated-digital-twin phase. Environment and sensor models
-  use engineering assumptions rather than selected flight-hardware data.
+- C++ flight software, CMake, and Simulink integration are not implemented.
+  Closed-loop estimator/controller integration belongs to the integrated
+  digital-twin phase. Environment, sensor, and actuator models use engineering
+  assumptions rather than selected flight-hardware data.
 
 ## Validation status
 
@@ -101,15 +105,15 @@ Executed with GNU Octave on 2026-08-19:
 | `testAdvancedControllers` | PASS — PID limits, LQR controllability/CARE/stability, comparison |
 | `runControllerComparison` | PASS — PD/PID/LQR saturated 90-degree slew metrics |
 | `testMagneticControl` | PASS — rod/wheel limits, B-dot detumble, momentum reduction |
+| `testModeManagement` | PASS — all transitions, hysteresis, actuator ownership, degraded allocation |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add deterministic flight mode management and transition tests.
-2. Generalize wheel allocation for non-orthogonal/redundant assemblies.
+1. Define deterministic, unit-explicit C++ flight-software interfaces.
 
 ## Latest good commit
 
-`22c83d1` (`feat: add validated gyro-bias MEKF`) is the latest validated
+`0532a88` (`feat: complete ADCS mode and actuator management`) is the latest validated
 technical commit.
