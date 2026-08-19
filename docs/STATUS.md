@@ -4,7 +4,7 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 3 sensor models and Phase 4 attitude determination are complete.
+Phase 5 — guidance and control — is in progress.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -58,6 +58,7 @@ truth state to estimator functions.
   analytical known-attitude and invalid-geometry checks.
 - Six-state right-multiplicative MEKF with asynchronous vector updates, gyro
   bias estimation, Joseph covariance update, and innovation/NIS tracking.
+- Inertial, Sun/safe, nadir/LVLH, and cubic-time shortest-path slew guidance.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -92,13 +93,14 @@ Executed with GNU Octave on 2026-08-19:
 | `testAttitudeDetermination` | PASS — TRIAD, QUEST, DCM conversion, collinearity rejection |
 | `testMekf` | PASS — propagation, vector correction, noisy bias/dropout scenario, covariance/NIS |
 | `runMekfValidation` | PASS — final attitude `0.8300 deg`, bias error `0.01262 deg/s` |
+| `testGuidance` | PASS — pointing geometry, LVLH frame, slew endpoints/rates |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Define pointing modes and reference-attitude generation.
-2. Add and validate a dedicated detumble controller.
+1. Add PD/PID/LQR comparison and linear-system checks.
+2. Add and validate magnetic detumble and momentum unloading.
 
 ## Latest good commit
 

@@ -45,7 +45,7 @@ automated regression tests, and an updated project status before completion.
 
 ## Phase 5 — Guidance and control
 
-- [ ] Define pointing modes and reference-attitude generation.
+- [x] Define pointing modes and reference-attitude generation.
 - [x] Implement and analytically validate quaternion attitude error.
 - [ ] Add a dedicated detumble controller.
 - [x] Add three-axis quaternion PD slew control.
