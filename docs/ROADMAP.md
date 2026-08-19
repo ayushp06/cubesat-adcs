@@ -31,10 +31,10 @@ automated regression tests, and an updated project status before completion.
 
 ## Phase 3 — Sensor truth and measurement models
 
-- [ ] Add gyroscope, magnetometer, and Sun-sensor truth interfaces.
-- [ ] Model bias, noise, scale factor, misalignment, sampling, and saturation.
-- [ ] Trace parameters to requirements, datasheets, or measured hardware.
-- [ ] Validate deterministic limits before stochastic Monte Carlo testing.
+- [x] Add gyroscope, magnetometer, and Sun-sensor truth interfaces.
+- [x] Model bias, noise, scale factor, misalignment, sampling, and saturation.
+- [x] Trace parameters to requirements, datasheets, or measured hardware.
+- [x] Validate deterministic limits before stochastic Monte Carlo testing.
 
 ## Phase 4 — Attitude determination
 

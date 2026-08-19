@@ -4,7 +4,8 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 2 — orbit and disturbance truth models — is complete.
+Phase 3 — sensor truth and measurement models — is complete; Phase 4 attitude
+determination is in progress.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -13,7 +14,8 @@ Quaternion error, PD feedback, three-wheel allocation, closed-loop slew
 scenarios, performance metrics, and representative solver convergence are
 validated. The MATLAB attitude-control foundation requested for Stage 1 is
 complete. ECI two-body/J2 translation, modular force/torque environments, and
-coupled 13-state 6-DOF propagation are validated. Phase 3 sensor truth is next.
+coupled 13-state 6-DOF propagation are validated. Flight-like gyro,
+magnetometer, coarse-Sun, GPS, and optional star-tracker models are validated.
 
 ## Completed and validated
 
@@ -48,6 +50,9 @@ coupled 13-state 6-DOF propagation are validated. Phase 3 sensor truth is next.
   magnetic-field, and residual-dipole torque models.
 - Coupled 13-state ECI translation and body rotation with independently
   selectable environment effects and no estimator/flight-state dependency.
+- Sampled gyro, magnetometer, six-face coarse-Sun, GPS, and optional
+  star-tracker models with explicit calibration errors, noise, limits, and
+  dropout behavior.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -77,14 +82,14 @@ Executed with GNU Octave on 2026-08-19:
 | `testSpaceEnvironment` | PASS — force, torque, illumination, and field checks |
 | `testFullSpacecraftDynamics` | PASS — coupled derivative, orbit invariants, quaternion norm |
 | `run6DOFValidation` | PASS — 5553.624 s all-effects propagation, quaternion error `1.336e-08` |
+| `testSensorModels` | PASS — deterministic sensor equations, limits, and dropout |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add deterministic gyroscope, magnetometer, and Sun-sensor truth interfaces.
-2. Preserve the current truth-state controller as the control-law reference
-   when sensor and estimator states are introduced.
+1. Add TRIAD and QUEST reference attitude determination.
+2. Add and validate the primary gyro-bias MEKF.
 
 ## Latest good commit
 
