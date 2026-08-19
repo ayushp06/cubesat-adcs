@@ -59,6 +59,8 @@ truth state to estimator functions.
 - Six-state right-multiplicative MEKF with asynchronous vector updates, gyro
   bias estimation, Joseph covariance update, and innovation/NIS tracking.
 - Inertial, Sun/safe, nadir/LVLH, and cubic-time shortest-path slew guidance.
+- Bounded quaternion PID-style integral augmentation and CARE-derived LQR with
+  controllability, stability, and PD/PID/LQR performance checks.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -94,13 +96,15 @@ Executed with GNU Octave on 2026-08-19:
 | `testMekf` | PASS — propagation, vector correction, noisy bias/dropout scenario, covariance/NIS |
 | `runMekfValidation` | PASS — final attitude `0.8300 deg`, bias error `0.01262 deg/s` |
 | `testGuidance` | PASS — pointing geometry, LVLH frame, slew endpoints/rates |
+| `testAdvancedControllers` | PASS — PID limits, LQR controllability/CARE/stability, comparison |
+| `runControllerComparison` | PASS — PD/PID/LQR saturated 90-degree slew metrics |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add PD/PID/LQR comparison and linear-system checks.
-2. Add and validate magnetic detumble and momentum unloading.
+1. Add and validate magnetic detumble and momentum unloading.
+2. Add deterministic flight mode management and transition tests.
 
 ## Latest good commit
 
