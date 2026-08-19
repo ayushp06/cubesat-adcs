@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(cubesat_adcs LANGUAGES CXX)
+enable_testing()
+add_executable(adcs_sil cpp/tests/test_sil.cpp)
+target_include_directories(adcs_sil PRIVATE cpp/include)
+target_compile_features(adcs_sil PRIVATE cxx_std_17)
+target_compile_options(adcs_sil PRIVATE -Wall -Wextra -Wpedantic -Werror)
+add_test(NAME adcs_sil COMMAND adcs_sil)

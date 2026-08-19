@@ -4,8 +4,7 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phases 5 and 6 — guidance, control, actuator allocation, and momentum
-management — are complete.
+Phase 7 flight-software interfaces and SIL verification are in progress.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -68,14 +67,16 @@ truth state to estimator functions.
   mode management with hysteresis and explicit actuator ownership.
 - Minimum-norm reaction-wheel allocation validated for orthogonal, redundant,
   and one-wheel-degraded full-rank geometries.
+- Versioned CRC-protected SI-unit sensor/actuator protocol, rollover-safe timing
+  contract, portable C++ quaternion PD reference, CMake, and native SIL test.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- C++ flight software, CMake, and Simulink integration are not implemented.
-  Closed-loop estimator/controller integration belongs to the integrated
-  digital-twin phase. Environment, sensor, and actuator models use engineering
-  assumptions rather than selected flight-hardware data.
+- The full MEKF/guidance/mode stack is not yet ported to C++; the native SIL
+  currently verifies protocol/timing and quaternion PD. Simulink and physical
+  HIL are not implemented or executed. Environment, sensor, and actuator models
+  use engineering assumptions rather than selected flight-hardware data.
 
 ## Validation status
 
@@ -106,12 +107,14 @@ Executed with GNU Octave on 2026-08-19:
 | `runControllerComparison` | PASS — PD/PID/LQR saturated 90-degree slew metrics |
 | `testMagneticControl` | PASS — rod/wheel limits, B-dot detumble, momentum reduction |
 | `testModeManagement` | PASS — all transitions, hysteresis, actuator ownership, degraded allocation |
+| CMake/`adcs_sil` | PASS — release build, packet sizes/CRC, timer rollover, PD signs |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Define deterministic, unit-explicit C++ flight-software interfaces.
+1. Port the validated MEKF, guidance, and mode-management algorithms to C++.
+2. Execute processor/HIL tests only when physical hardware is available.
 
 ## Latest good commit
 
