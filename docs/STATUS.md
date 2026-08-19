@@ -4,7 +4,8 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 7 flight-software interfaces and SIL verification are in progress.
+Project-level software verification and documentation are complete. Phase 7's
+full C++ algorithm port and physical qualification phases remain open.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -69,6 +70,9 @@ truth state to estimator functions.
   and one-wheel-degraded full-rank geometries.
 - Versioned CRC-protected SI-unit sensor/actuator protocol, rollover-safe timing
   contract, portable C++ quaternion PD reference, CMake, and native SIL test.
+- Requirements-to-test matrix, seeded Monte Carlo and fault scenarios, nadir
+  and desaturation demonstrations, consolidated CSV results, metadata, and
+  generated plots.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -108,6 +112,8 @@ Executed with GNU Octave on 2026-08-19:
 | `testMagneticControl` | PASS — rod/wheel limits, B-dot detumble, momentum reduction |
 | `testModeManagement` | PASS — all transitions, hysteresis, actuator ownership, degraded allocation |
 | CMake/`adcs_sil` | PASS — release build, packet sizes/CRC, timer rollover, PD signs |
+| `testVerificationScenarios` | PASS — nadir geometry, fault sequence, two seeded MEKF runs |
+| `runProjectVerification` | PASS — 15 checks, 12/12 Monte Carlo, SIL, plots/tables |
 
 These results describe only the commands above; no unrun result is implied.
 
@@ -118,5 +124,5 @@ These results describe only the commands above; no unrun result is implied.
 
 ## Latest good commit
 
-`0532a88` (`feat: complete ADCS mode and actuator management`) is the latest validated
+`7a3e2b8` (`feat: add reproducible project verification campaign`) is the latest validated
 technical commit.

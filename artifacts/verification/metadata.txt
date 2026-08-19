@@ -1,0 +1,7 @@
+git_revision=7a3e2b83c335b73545b4e8bcc212b5f9e49bfd1a
+octave_version=8.4.0
+headline_mekf_seed=21
+monte_carlo_seeds=1001:1012
+campaign_orbit_reltol=1e-9
+campaign_orbit_abstol=1e-8
+configuration=repository MATLAB parameter functions at git_revision

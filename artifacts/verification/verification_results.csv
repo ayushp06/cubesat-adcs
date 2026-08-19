@@ -1,0 +1,16 @@
+scenario,metric,value,limit,pass
+torque_free,relative_energy_error,3.2947316699e-10,1e-07,1
+wheel_exchange,momentum_error_nms,2.16840434497e-19,1e-12,1
+arbitrary_slew,final_error_deg,4.76892005572e-05,0.01,1
+six_dof,quaternion_norm_error,1.45540921537e-08,1e-06,1
+mekf,rms_attitude_error_deg,1.32976378595,2,1
+mekf,bias_error_deg_s,0.0126248330376,0.08,1
+bdot,final_rate_deg_s,0.0893510415997,1,1
+nadir,max_axis_error_rad,3.65002414999e-08,1e-07,1
+desaturation,final_momentum_fraction,0.147247676306,0.2,1
+pd,settling_time_s,52.6,180,1
+pid,settling_time_s,52.6,180,1
+lqr,settling_time_s,63.4,180,1
+monte_carlo,pass_fraction,1,1,1
+fault,transition_pass,1,1,1
+sil,exit_status,0,0,1
