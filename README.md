@@ -122,6 +122,7 @@ Thresholds, metrics, and requirement traceability are in
 - [Guidance/control/modes](docs/GUIDANCE_CONTROL.md)
 - [HIL architecture, protocol, timing, MCU plan](docs/HIL_ARCHITECTURE.md)
 - [Verification matrix](docs/VERIFICATION.md)
+- [Results in plain English](docs/RESULTS_IN_PLAIN_ENGLISH.md)
 - [Status](docs/STATUS.md) and [roadmap](docs/ROADMAP.md)
 
 All dynamics use SI. `q_IB=[qw qx qy qz]^T` rotates body components into ECI.
