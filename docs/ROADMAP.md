@@ -38,7 +38,7 @@ automated regression tests, and an updated project status before completion.
 
 ## Phase 4 — Attitude determination
 
-- [ ] Implement reference-vector attitude determination.
+- [x] Implement reference-vector attitude determination.
 - [ ] Implement a quaternion estimator with explicit covariance conventions.
 - [ ] Validate perfect-measurement, biased, noisy, and dropout cases.
 - [ ] Report estimation error without conflating truth and estimated state.

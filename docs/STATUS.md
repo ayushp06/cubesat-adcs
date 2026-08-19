@@ -53,6 +53,8 @@ magnetometer, coarse-Sun, GPS, and optional star-tracker models are validated.
 - Sampled gyro, magnetometer, six-face coarse-Sun, GPS, and optional
   star-tracker models with explicit calibration errors, noise, limits, and
   dropout behavior.
+- TRIAD and Davenport q-method/QUEST reference-vector attitude solutions with
+  analytical known-attitude and invalid-geometry checks.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -83,13 +85,13 @@ Executed with GNU Octave on 2026-08-19:
 | `testFullSpacecraftDynamics` | PASS — coupled derivative, orbit invariants, quaternion norm |
 | `run6DOFValidation` | PASS — 5553.624 s all-effects propagation, quaternion error `1.336e-08` |
 | `testSensorModels` | PASS — deterministic sensor equations, limits, and dropout |
+| `testAttitudeDetermination` | PASS — TRIAD, QUEST, DCM conversion, collinearity rejection |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add TRIAD and QUEST reference attitude determination.
-2. Add and validate the primary gyro-bias MEKF.
+1. Add and validate the primary gyro-bias MEKF.
 
 ## Latest good commit
 

@@ -47,3 +47,19 @@ project design assumptions, not fabricated datasheet specifications:
 
 Replace these entries with traced datasheet or measured values when hardware
 is selected; the sensor interfaces and tests remain unchanged.
+
+## 4. Deterministic vector attitude solutions
+
+Attitude is observable from two non-collinear reference directions. TRIAD
+normalizes the first vector, forms the second axis from the cross product, and
+completes right-handed orthonormal bases in B and I. The attitude matrix is
+`C_IB = T_I T_B^T`. Collinear inputs are rejected because they contain no
+rotation information about their common axis.
+
+QUEST solves Wahba's problem: find the rotation minimizing
+`0.5 sum(a_i |b_i - C_BI r_i|^2)`. `questAttitude` constructs Davenport's
+symmetric 4-by-4 K matrix and selects the unit eigenvector of its largest
+eigenvalue. The result is conjugated from reference-to-body into the repository
+`q_IB` convention. This eigenvalue form is the q-method reference solution;
+for the small vector counts here it is clearer than a specialized scalar-root
+iteration and has the same Wahba optimum.
