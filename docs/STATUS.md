@@ -4,8 +4,7 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Phase 3 — sensor truth and measurement models — is complete; Phase 4 attitude
-determination is in progress.
+Phase 3 sensor models and Phase 4 attitude determination are complete.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -16,6 +15,8 @@ validated. The MATLAB attitude-control foundation requested for Stage 1 is
 complete. ECI two-body/J2 translation, modular force/torque environments, and
 coupled 13-state 6-DOF propagation are validated. Flight-like gyro,
 magnetometer, coarse-Sun, GPS, and optional star-tracker models are validated.
+TRIAD, QUEST, and the primary gyro-bias MEKF are validated without exposing
+truth state to estimator functions.
 
 ## Completed and validated
 
@@ -55,14 +56,17 @@ magnetometer, coarse-Sun, GPS, and optional star-tracker models are validated.
   dropout behavior.
 - TRIAD and Davenport q-method/QUEST reference-vector attitude solutions with
   analytical known-attitude and invalid-geometry checks.
+- Six-state right-multiplicative MEKF with asynchronous vector updates, gyro
+  bias estimation, Joseph covariance update, and innovation/NIS tracking.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- Sensors, estimation, pointing-mode guidance, detumble, momentum dumping, C++
-  flight software, CMake, and Simulink integration are not implemented. The
-  current controller uses truth state and a fixed target. Environment models
-  are engineering fidelity, not operational ephemeris/atmosphere/IGRF models.
+- Pointing-mode guidance, detumble, momentum dumping, C++ flight software,
+  CMake, and Simulink integration are not implemented. The current controller
+  still uses truth state and a fixed target; estimator/controller integration
+  belongs to the integrated-digital-twin phase. Environment and sensor models
+  use engineering assumptions rather than selected flight-hardware data.
 
 ## Validation status
 
@@ -86,14 +90,17 @@ Executed with GNU Octave on 2026-08-19:
 | `run6DOFValidation` | PASS — 5553.624 s all-effects propagation, quaternion error `1.336e-08` |
 | `testSensorModels` | PASS — deterministic sensor equations, limits, and dropout |
 | `testAttitudeDetermination` | PASS — TRIAD, QUEST, DCM conversion, collinearity rejection |
+| `testMekf` | PASS — propagation, vector correction, noisy bias/dropout scenario, covariance/NIS |
+| `runMekfValidation` | PASS — final attitude `0.8300 deg`, bias error `0.01262 deg/s` |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add and validate the primary gyro-bias MEKF.
+1. Define pointing modes and reference-attitude generation.
+2. Add and validate a dedicated detumble controller.
 
 ## Latest good commit
 
-`c69c64f` (`feat: complete coupled 6-dof truth model`) is the latest validated
+`22c83d1` (`feat: add validated gyro-bias MEKF`) is the latest validated
 technical commit.
