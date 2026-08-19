@@ -54,7 +54,7 @@ automated regression tests, and an updated project status before completion.
 ## Phase 6 — Actuator allocation and momentum management
 
 - [x] Allocate body torque to the current orthogonal three-wheel assembly.
-- [ ] Generalize wheel allocation for the selected physical wheel geometry.
+- [x] Generalize wheel allocation for the selected physical wheel geometry.
 - [x] Add magnetorquer or other momentum-dumping actuation.
 - [x] Implement wheel desaturation and degraded-actuator cases.
 - [x] Validate momentum, power, and authority limits.

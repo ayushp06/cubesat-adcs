@@ -70,3 +70,22 @@ saturation, the achieved magnetic torque—not the unattainable request—is
 mapped to wheel motor torque. Reaction-wheel body torque and magnetic torque
 then cancel ideally while wheel momentum decreases. Tests require momentum to
 fall below 20% of its initial value without exceeding wheel/rod limits.
+
+## 5. Mode management
+
+The deterministic state machine has initialization, detumble, safe, nominal,
+slew, desaturation, and latched fault modes. Transition priority is fault,
+initialization completion, detumble completion, safe/estimator invalidity,
+desaturation, slew, then nominal request. Detumble enters above 5 deg/s and
+exits below 0.5 deg/s. Desaturation enters at 85% wheel speed and exits at 50%,
+returning to the prior operational mode. This hysteresis prevents chatter.
+Fault requires an explicit reset and returns through initialization.
+
+`adcsModeCommand` makes actuator ownership explicit: detumble uses rods; safe,
+nominal, and slew use wheels; desaturation uses both; initialization/fault
+command neither. Tests exercise every mode and both hysteresis bands.
+
+Reaction-wheel allocation now uses the Moore-Penrose pseudoinverse. It is
+identical to the former solve for the selected orthogonal three-wheel assembly
+and gives the minimum-norm solution for redundant non-orthogonal assemblies.
+A four-wheel geometry regression verifies commanded body torque exactly.
