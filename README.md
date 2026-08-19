@@ -6,7 +6,7 @@ This repository is the beginning of an **Attitude Determination and Control Syst
 
 This document explains every repository file, derives the mathematics used by the code, shows how information flows through each simulation, records what has been verified, and separates implemented behavior from future intent.
 
-> Status snapshot: documentation and validation performed on 2026-08-13 at commit `c19b3d1`. The seven quaternion tests pass in GNU Octave. The torque-free and three-wheel simulations run. The older one-wheel simulation currently fails because its scalar wheel interface is incompatible with the newer three-wheel parameter vectors; see [Known limitations](#known-limitations-and-modeling-caveats).
+> Status snapshot: project status and current validation results are maintained in [`docs/STATUS.md`](docs/STATUS.md).
 
 ---
 
@@ -85,7 +85,7 @@ matlab/
 | `matlab/CONVENTIONS.md` | Declares frame, quaternion, angular-rate, unit, and angle conventions. | Authoritative and essential. |
 | `matlab/config/spacecraftParams.m` | Returns nominal name, mass, dimensions, and inertia tensor. | Used by all simulations. |
 | `matlab/config/spacecraftParams.asv` | MATLAB Editor autosave copy of `spacecraftParams.m`. | Byte-for-byte duplicate; not used at runtime. |
-| `matlab/config/reactionWheelParams.m` | Returns three wheel inertias, torque limits, speed limits, and wheel-axis matrix. | Used by wheel simulations; its vector values break the older scalar one-wheel model. |
+| `matlab/config/reactionWheelParams.m` | Returns three wheel inertias, torque limits, speed limits, and wheel-axis matrix. | Shared by the three-wheel model and the one-wheel model's first-wheel selection. |
 | `matlab/math/quatMultiply.m` | Implements scalar-first Hamilton multiplication. | Tested. |
 | `matlab/math/quatConjugate.m` | Negates the quaternion vector part. | Tested as the inverse of a unit quaternion. |
 | `matlab/math/quatNormalize.m` | Projects a quaternion to unit length and rejects near-zero input. | Tested. |
@@ -93,12 +93,13 @@ matlab/
 | `matlab/math/CubeSat_ADCS_Quaternion_Math_Explained.pdf` | Six-page earlier explanation of quaternion purpose, operations, DCMs, and tests. | Consistent with the live convention; narrower than this guide. |
 | `matlab/math/.m` | Empty file. | No runtime or documentation effect. |
 | `matlab/dynamics/attitudeDynamics.m` | Seven-state rigid-body attitude and rate differential equation. | Used by torque-free simulation. |
-| `matlab/dynamics/attitudeDynamicsRW.m` | Eight-state spacecraft plus one X-axis wheel model. | Currently incompatible with vector-valued `reactionWheelParams`. |
+| `matlab/dynamics/attitudeDynamicsRW.m` | Eight-state spacecraft plus wheel 1 on the X axis. | Uses the first entry of the three-wheel parameter set. |
 | `matlab/dynamics/attitudeDynamics3RW.m` | Ten-state coupled spacecraft plus three orthogonal wheels model. | Used by three-wheel simulation. |
 | `matlab/simulations/runTorqueFreeRotation.m` | Runs 100 s of torque-free principal-axis rotation and plots invariants. | Runs in Octave. |
-| `matlab/simulations/runReactionWheelTest.m` | Intended to demonstrate one-wheel momentum exchange for 10 s. | Currently errors before integration begins. |
+| `matlab/simulations/runReactionWheelTest.m` | Demonstrates one-wheel momentum exchange for 10 s. | Runs in Octave. |
 | `matlab/simulations/runThreeWheelTest.m` | Applies constant commands to three wheels for 10 s and plots body/wheel rates. | Runs in Octave. |
 | `matlab/tests/testQuaternionMath.m` | Seven assertion-based checks of quaternion utilities and conventions. | All pass in Octave. |
+| `matlab/tests/testReactionWheelDynamics.m` | Checks one-wheel analytical acceleration and momentum conservation. | All pass in Octave. |
 
 The Git history shows four development stages: the quaternion mathematics and conventions, relocation of the test, addition of torque-free and one-wheel dynamics, and finally addition of the three-wheel model.
 
@@ -787,14 +788,10 @@ The script is designed to:
    \]
 6. report the maximum deviation from the initially zero momentum.
 
-Current behavior: it does not reach integration. `reactionWheelParams.m` now supplies three-element `rw.J` and `rw.maxTorque` vectors, while `attitudeDynamicsRW.m` expects scalars. Vector expansion creates a three-element `wheelAccel` and `bodyTorque` components with incompatible dimensions, producing an Octave error at the rotational dynamics subtraction.
-
-The smallest coherent remedies are either:
-
-- treat the one-wheel model explicitly as wheel 1 by using `rw.J(1)` and `rw.maxTorque(1)`; or
-- retire this superseded demonstration and use the three-wheel model with commands `[u_x;0;0]`.
-
-No fix is applied here because this change requested documentation, not behavior changes.
+The one-wheel model explicitly uses `rw.J(1)` and `rw.maxTorque(1)`, preserving
+its scalar X-axis interface while sharing the three-wheel parameter source. Its
+automated regression test checks the analytical accelerations, 20 rad/s final
+wheel speed after 10 s, and conservation of X-axis angular momentum.
 
 ### 11.3 Three-wheel test: `runThreeWheelTest.m`
 
@@ -881,7 +878,7 @@ Together these test core algebra and the selected frame convention. They do not 
 
 - invalid quaternion inputs;
 - multiplication composition order using two different rotations;
-- the ODE dynamics;
+- bare-spacecraft and three-wheel ODE invariants;
 - torque saturation;
 - wheel-axis allocation;
 - speed saturation;
@@ -901,18 +898,20 @@ Run scripts from their own directories because the relative `addpath("../...")` 
 ```matlab
 cd matlab/tests
 testQuaternionMath
+testReactionWheelDynamics
 
 cd ../simulations
 runTorqueFreeRotation
 runThreeWheelTest
 ```
 
-`runReactionWheelTest` currently fails for the interface reason described above.
+`testReactionWheelDynamics` also validates the one-wheel model analytically.
 
 ### GNU Octave from the repository root
 
 ```sh
 octave --quiet --eval "cd('matlab/tests'); testQuaternionMath"
+octave --quiet --eval "cd('matlab/tests'); testReactionWheelDynamics"
 octave --quiet --eval "cd('matlab/simulations'); runTorqueFreeRotation"
 octave --quiet --eval "cd('matlab/simulations'); runThreeWheelTest"
 ```
@@ -931,11 +930,10 @@ These are not all “bugs.” Some are deliberate early-model simplifications. T
 
 ### 14.1 Confirmed implementation issues
 
-1. **One-wheel interface mismatch.** The one-wheel dynamics expects scalar `rw.J` and `rw.maxTorque`; configuration now returns three-vectors.
-2. **Configured wheel speed limits are unused.** A wheel can accelerate beyond 6000 RPM indefinitely.
-3. **Relative-path execution assumption.** Simulation and test scripts generally fail to find folders when launched from a different current directory.
-4. **Unused variables/paths.** `wheelSpeed` is read but unused in `attitudeDynamicsRW`; some simulations add the tests directory but never call it.
-5. **Autosave and empty artifacts.** `spacecraftParams.asv` duplicates the source, and `math/.m` is empty. Neither contributes behavior.
+1. **Configured wheel speed limits are not yet validated.** The working tree contains an incomplete three-wheel limiter edit, but the committed model permits unlimited wheel speed.
+2. **Relative-path execution assumption.** Simulation and older test scripts generally fail to find folders when launched from a different current directory.
+3. **Unused variables/paths.** `wheelSpeed` is read but unused in `attitudeDynamicsRW`; some simulations add the tests directory but never call it.
+4. **Autosave and empty artifacts.** `spacecraftParams.asv` duplicates the source, and `math/.m` is empty. Neither contributes behavior.
 
 ### 14.2 Physics not yet represented
 
@@ -972,16 +970,15 @@ The model is currently appropriate for learning, equation verification, and earl
 
 The next work should preserve the existing convention and add verification at each layer.
 
-1. **Repair or retire the one-wheel interface.** Establish one unambiguous actuator parameter shape.
-2. **Automate dynamics invariants.** Add small tests for analytic principal-axis motion and total body-plus-wheel momentum.
-3. **Enforce or model wheel-speed limits.** Define behavior at saturation before building a controller that assumes unlimited momentum storage.
-4. **Add external torque as a function of state and time.** Start with one model, such as gravity-gradient torque, and verify a limiting case.
-5. **Add orbit/environment truth.** Attitude sensors require physically meaningful inertial reference vectors.
-6. **Add sensor truth-to-measurement models.** Keep noise/bias parameters traceable to actual hardware candidates or requirements.
-7. **Add estimation.** First validate perfect-measurement reconstruction, then introduce errors.
-8. **Add attitude error and a basic controller.** Verify sign and frame convention with single-axis tests before three-axis maneuvers.
-9. **Add actuator allocation and momentum management.** Generalize \(\mathbf A\) only when a real wheel layout requires it.
-10. **Calibrate and validate.** Replace nominal mass properties and actuator values with measurements, uncertainty bounds, and hardware data.
+1. **Automate dynamics invariants.** Add small tests for analytic principal-axis motion and total body-plus-wheel momentum.
+2. **Enforce and validate wheel-speed limits.** Define behavior at saturation before building a controller that assumes unlimited momentum storage.
+3. **Add external torque as a function of state and time.** Start with one model, such as gravity-gradient torque, and verify a limiting case.
+4. **Add orbit/environment truth.** Attitude sensors require physically meaningful inertial reference vectors.
+5. **Add sensor truth-to-measurement models.** Keep noise/bias parameters traceable to actual hardware candidates or requirements.
+6. **Add estimation.** First validate perfect-measurement reconstruction, then introduce errors.
+7. **Add attitude error and a basic controller.** Verify sign and frame convention with single-axis tests before three-axis maneuvers.
+8. **Add actuator allocation and momentum management.** Generalize \(\mathbf A\) only when a real wheel layout requires it.
+9. **Calibrate and validate.** Replace nominal mass properties and actuator values with measurements, uncertainty bounds, and hardware data.
 
 Every stage should answer three questions: What equation is being implemented? What assumptions make it valid? What check would fail if the sign, frame, unit, or coupling were wrong?
 
@@ -1057,4 +1054,4 @@ With reaction wheels, internal momentum becomes
 
 and motor torque moves momentum between wheels and spacecraft without creating net inertial angular momentum.
 
-That is what has been built so far: a coherent quaternion convention, tested rotation utilities, a nonlinear rigid-body plant, ideal reaction-wheel momentum exchange, and three demonstration scripts. The strongest next improvement is not more architecture; it is closing the one-wheel regression and turning the existing physical invariants into automated dynamics tests.
+That is what has been built so far: a coherent quaternion convention, tested rotation utilities, a nonlinear rigid-body plant, ideal reaction-wheel momentum exchange, and three demonstration scripts. The strongest next improvement is turning the remaining physical invariants and actuator limits into automated dynamics tests.

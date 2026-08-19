@@ -6,9 +6,9 @@ Updated: 2026-08-19
 
 Phase 1 — Dynamics foundation and automated validation.
 
-Stage 0 project memory is established. The first incomplete technical
-milestone is repairing the one-wheel reaction-wheel parameter interface,
-followed by automated dynamics invariant tests.
+Stage 0 project memory is established. The one-wheel reaction-wheel parameter
+interface is repaired and covered by an analytical regression test. The next
+milestone is broader automated dynamics invariant testing.
 
 ## Completed and validated
 
@@ -23,12 +23,12 @@ followed by automated dynamics invariant tests.
 - Nonlinear torque-free rigid-body dynamics and quaternion kinematics.
 - Ideal three-wheel rigid-body coupling, motor-torque clipping, and an
   executable demonstration.
+- One-wheel momentum exchange using the first configured wheel, checked against
+  its analytical acceleration and total-momentum invariant.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- The one-wheel simulation fails because its scalar dynamics interface receives
-  three-element wheel parameter vectors.
 - An uncommitted pre-existing edit in `attitudeDynamics3RW.m` adds wheel-speed
   limiting but duplicates the wheel-acceleration calculation; it is not yet
   validated or included in Stage 0 commits.
@@ -48,20 +48,20 @@ Executed with GNU Octave on 2026-08-19:
 | `testQuaternionMath` | PASS — 7 assertions |
 | `runTorqueFreeRotation` | PASS — max normalized quaternion error `2.220e-16` |
 | `runThreeWheelTest` | PASS — completed without runtime error |
-| `runReactionWheelTest` | FAIL — scalar/vector interface mismatch at `attitudeDynamicsRW.m:55` |
+| `testReactionWheelDynamics` | PASS — derivative, final speed, and momentum assertions |
+| `runReactionWheelTest` | PASS — max momentum error `4.337e-19 N m s` |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Repair the one-wheel interface using the first configured wheel explicitly.
-2. Add one automated dynamics test covering analytical principal-axis motion,
+1. Add one automated dynamics test covering analytical principal-axis motion,
    internal momentum conservation, torque clipping, and speed limiting.
-3. Validate and clean the existing three-wheel speed-limit edit.
-4. Record explicit ODE tolerances and convergence evidence.
+2. Validate and clean the existing three-wheel speed-limit edit.
+3. Record explicit ODE tolerances and convergence evidence.
 
 ## Latest good commit
 
-`d485e9b` (`documentation`) is the latest committed baseline inspected before
-Stage 0. The working tree also contains the pre-existing uncommitted
-three-wheel speed-limit edit described above.
+`291e076` (`docs: establish project roadmap and status`) is the latest validated
+project-memory baseline. The working tree also contains the pre-existing
+uncommitted three-wheel speed-limit edit described above.

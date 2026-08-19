@@ -17,7 +17,7 @@ automated regression tests, and an updated project status before completion.
 - [x] Implement and test quaternion algebra and DCM conversion.
 - [x] Implement torque-free rigid-body propagation.
 - [x] Implement ideal one-wheel and three-wheel momentum exchange.
-- [ ] Repair the one-wheel parameter interface regression.
+- [x] Repair the one-wheel parameter interface regression.
 - [ ] Add automated rigid-body and reaction-wheel invariant tests.
 - [ ] Complete and test reaction-wheel torque and speed saturation behavior.
 - [ ] Set explicit solver tolerances and document convergence evidence.
