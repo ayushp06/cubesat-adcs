@@ -64,5 +64,45 @@ values. For the reproducible 400 km, 51.6° scenario, adding J2 changes the
 one-orbit endpoint by 72,501.729 m relative to point-mass propagation. This is
 a model-to-model perturbation comparison, not position error against truth.
 
-Further sections document the force, torque, illumination, and magnetic models
-as they are integrated.
+## 5. Gravity-gradient torque
+
+With `n_B = C_IB^T r_I/|r_I|`, the point-mass result is
+`tau_gg_B = (3 mu/r^3) n_B x (J n_B)`. It is zero when the local vertical is
+a principal inertia axis. A 45-degree case is checked against its closed-form
+torque and sign.
+
+## 6. Atmosphere, drag, and aerodynamic torque
+
+Density uses the configurable model `rho = rho0 exp(-(h-h0)/H)`, nominally
+anchored at 400 km. The atmosphere rigidly co-rotates with Earth, so
+`v_rel = v_ECI - omega_E x r_ECI`. Drag is
+`F_D = -0.5 rho C_D A_p |v_rel| v_rel`, where `A_p` is the projected area of
+the configured rectangular box. Torque is `r_CP x F_D` in B. Space weather,
+winds, and free-molecular details are omitted; the explicit interface permits
+a later high-fidelity atmosphere replacement.
+
+## 7. Sun, eclipse, and solar radiation pressure
+
+The Sun follows a circular annual ephemeris in the mean ecliptic, rotated by
+the configured obliquity into ECI. Distance is fixed at one AU. Eclipse is a
+binary cylindrical shadow: behind Earth and within one Earth radius of the
+Sun-Earth axis is dark. Penumbra is omitted.
+
+Solar pressure is `F_SRP = -nu P0 C_R A_p s_hat`. The box projection changes
+with attitude and the configured centre-of-pressure gives `r_CP x F_SRP`.
+Face-level optical properties are collapsed into one reflectivity coefficient.
+
+## 8. Geomagnetic field and torque
+
+The centered dipole is tilted 9.3 degrees from Earth's spin axis and fixed in
+ECEF. It rotates into ECI at the Earth rate and gives
+`B_I = 1e-7/r^3 [3 r_hat (m_I dot r_hat) - m_I]` in tesla. Disturbance torque
+is `m_B x B_B` for the configurable residual dipole. Secular variation, higher
+harmonics, and external fields are omitted; use IGRF when geographic accuracy
+is required.
+
+## 9. Reproducible module validation
+
+Run `octave --quiet matlab/tests/testSpaceEnvironment.m` from the repository
+root. It checks gravity-gradient limiting cases, density, drag, Sun/eclipse
+geometry, SRP shadowing, and dipole field/torque relations.

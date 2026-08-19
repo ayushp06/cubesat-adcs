@@ -39,5 +39,10 @@ function sc = spacecraftParams()
         0      0      0.007
     ];
 
+    sc.dragCoefficient = 2.2;
+    sc.reflectivityCoefficient = 1.3;
+    sc.centerOfPressureB = [0.01; 0; 0.02]; % relative to COM [m]
+    sc.residualDipoleB = [0.01; -0.005; 0.002]; % [A m^2]
+
 
 end

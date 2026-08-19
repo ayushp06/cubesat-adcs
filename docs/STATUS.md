@@ -12,8 +12,8 @@ plant invariants and shared reaction-wheel actuator limits are now validated.
 Quaternion error, PD feedback, three-wheel allocation, closed-loop slew
 scenarios, performance metrics, and representative solver convergence are
 validated. The MATLAB attitude-control foundation requested for Stage 1 is
-complete. ECI two-body and J2 translation are now validated; modular force and
-torque environments are next.
+complete. ECI two-body/J2 translation and modular force/torque environments are
+now validated; coupled 6-DOF propagation is next.
 
 ## Completed and validated
 
@@ -43,6 +43,9 @@ torque environments are next.
 - Explicit ODE tolerances in simulations and a two-tolerance convergence check.
 - ECI position/velocity propagation with two-body gravity and optional J2,
   including analytical J2 checks and orbital energy/momentum regression tests.
+- Independent gravity-gradient, exponential-atmosphere drag, aerodynamic
+  torque, analytic Sun, cylindrical eclipse, solar-pressure, centered-dipole
+  magnetic-field, and residual-dipole torque models.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -69,14 +72,13 @@ Executed with GNU Octave on 2026-08-19:
 | `runAttitudeSlewSuite` | PASS — five scenarios completed and metrics reported |
 | `testOrbitDynamics` | PASS — one-orbit state/invariants and J2 known answers |
 | `runOrbitValidation` | PASS — energy `7.236e-11`, momentum `3.618e-11` relative error |
+| `testSpaceEnvironment` | PASS — force, torque, illumination, and field checks |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add independently tested gravity-gradient, atmosphere/drag, Sun/eclipse,
-   solar-pressure, and magnetic models.
-2. Couple translation and rotation in the 13-state 6-DOF truth propagator.
+1. Couple translation and rotation in the 13-state 6-DOF truth propagator.
 3. Preserve the current truth-state controller as the control-law reference
    when sensor and estimator states are introduced.
 
