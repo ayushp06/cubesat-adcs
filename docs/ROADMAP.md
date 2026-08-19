@@ -71,7 +71,7 @@ automated regression tests, and an updated project status before completion.
 - [ ] Connect orbit, environment, sensors, estimator, guidance, control, and actuators.
 - [ ] Add Simulink integration where block-level simulation adds value.
 - [ ] Run scenario, fault, sensitivity, and Monte Carlo campaigns.
-- [ ] Record solver, seed, configuration, commit, and reproducibility metadata.
+- [x] Record solver, seed, configuration, commit, and reproducibility metadata.
 
 ## Phase 9 — Hardware calibration and qualification evidence
 
