@@ -27,11 +27,14 @@ on-orbit data were used.
 | MAG-001 | Saturated 3-axis B-dot | rate `<1 deg/s` and `<10%` initial | `testMagneticControl`, campaign | PASS |
 | MOM-001 | Unload wheel momentum | fraction `<0.2`, limits obeyed | `testMagneticControl`, campaign | PASS |
 | MOD-001 | Seven deterministic modes | transitions, hysteresis, fault latch | `testModeManagement`, fault demo | PASS |
-| FSW-001 | SI-unit transport/timing | packet sizes, CRC, timer rollover | `adcs_sil` | PASS (host SIL) |
+| FSW-001 | SI-unit transport/timing | packet sizes, CRC, timer rollover; no live transport | `adcs_sil` | PARTIAL |
 | FSW-002 | Portable control convention | known PD direction/damping | MATLAB test and `adcs_sil` | PASS (host SIL) |
+| FSW-003 | Portable flight algorithm stack | MEKF, guidance, modes, allocation in C++ | PD only | PARTIAL |
+| INT-001 | Closed-loop digital twin | plant-to-sensor-to-estimator-to-control-to-actuator scenario | components only | PARTIAL |
+| SIM-001 | Simulink integration | add only where block-level simulation adds value | no demonstrated need | NOT APPLICABLE |
 | VER-001 | Seeded noisy regression | 12 seeds meet EST-002 | `runProjectVerification` | PASS |
-| HIL-001 | Physical MCU closed loop | timing/electrical/closed-loop evidence | none | NOT RUN |
-| CAL-001 | Measured hardware parameters | selected hardware/calibration trace | none | OPEN |
+| HIL-001 | Physical MCU closed loop | timing/electrical/closed-loop evidence | none | BLOCKED |
+| CAL-001 | Measured hardware parameters | selected hardware/calibration trace | none | BLOCKED |
 
 ## Final campaign
 

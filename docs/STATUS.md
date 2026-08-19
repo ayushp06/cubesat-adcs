@@ -4,8 +4,9 @@ Updated: 2026-08-19
 
 ## Current phase
 
-Project-level software verification and documentation are complete. Phase 7's
-full C++ algorithm port and physical qualification phases remain open.
+The component-level MATLAB/Octave reference stack is verified, but the software
+project is not complete. The full C++ algorithm port and closed-loop integrated
+digital twin are non-hardware core gaps; hardware qualification is also open.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -81,6 +82,9 @@ truth state to estimator functions.
   currently verifies protocol/timing and quaternion PD. Simulink and physical
   HIL are not implemented or executed. Environment, sensor, and actuator models
   use engineering assumptions rather than selected flight-hardware data.
+- No single scenario closes the full plant-to-sensor-to-estimator-to-guidance/
+  mode-to-actuator loop. Existing demonstrations validate those components in
+  isolation or in smaller closed loops.
 
 ## Validation status
 
@@ -124,5 +128,6 @@ These results describe only the commands above; no unrun result is implied.
 
 ## Latest good commit
 
-`7a3e2b8` (`feat: add reproducible project verification campaign`) is the latest validated
-technical commit.
+`d9acbf5` (`docs: publish final verified project evidence`) is the audited
+implementation baseline. The completion-audit commit changes evidence and
+status documentation only.
