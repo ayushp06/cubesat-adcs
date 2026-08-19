@@ -4,9 +4,9 @@ Updated: 2026-08-19
 
 ## Current phase
 
-The component-level MATLAB/Octave reference stack is verified, but the software
-project is not complete. The full C++ algorithm port and closed-loop integrated
-digital twin are non-hardware core gaps; hardware qualification is also open.
+The portable C++ algorithm candidate is implemented and passing incremental
+GoogleTest/MATLAB-vector checks. FSW-003 remains PARTIAL until the required
+clean build and complete relevant-suite evidence are recorded.
 
 Stage 0 project memory is established. The one-wheel reaction-wheel parameter
 interface is repaired and covered by an analytical regression test. Automated
@@ -74,14 +74,16 @@ truth state to estimator functions.
 - Requirements-to-test matrix, seeded Monte Carlo and fault scenarios, nadir
   and desaturation demonstrations, consolidated CSV results, metadata, and
   generated plots.
+- Portable C++ quaternion/frame math, QUEST/gyro-bias MEKF, guidance, PD/LQR,
+  allocation, mode logic, explicit configuration, and estimate-to-actuator API.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
 
-- The full MEKF/guidance/mode stack is not yet ported to C++; the native SIL
-  currently verifies protocol/timing and quaternion PD. Simulink and physical
-  HIL are not implemented or executed. Environment, sensor, and actuator models
-  use engineering assumptions rather than selected flight-hardware data.
+- The new C++ port has not yet passed its final clean verification gate.
+  Simulink and physical HIL are not implemented or executed. Environment,
+  sensor, and actuator models use engineering assumptions rather than selected
+  flight-hardware data.
 - No single scenario closes the full plant-to-sensor-to-estimator-to-guidance/
   mode-to-actuator loop. Existing demonstrations validate those components in
   isolation or in smaller closed loops.
@@ -118,6 +120,7 @@ Executed with GNU Octave on 2026-08-19:
 | CMake/`adcs_sil` | PASS — release build, packet sizes/CRC, timer rollover, PD signs |
 | `testVerificationScenarios` | PASS — nadir geometry, fault sequence, two seeded MEKF runs |
 | `runProjectVerification` | PASS — 15 checks, 12/12 Monte Carlo, SIL, plots/tables |
+| Incremental C++ GoogleTest | PASS — 9 tests including MATLAB reference-vector parity |
 
 These results describe only the commands above; no unrun result is implied.
 
