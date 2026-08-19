@@ -47,7 +47,7 @@ automated regression tests, and an updated project status before completion.
 
 - [x] Define pointing modes and reference-attitude generation.
 - [x] Implement and analytically validate quaternion attitude error.
-- [ ] Add a dedicated detumble controller.
+- [x] Add a dedicated detumble controller.
 - [x] Add three-axis quaternion PD slew control.
 - [x] Verify signs, frames, settling time, and actuator usage.
 
@@ -55,9 +55,9 @@ automated regression tests, and an updated project status before completion.
 
 - [x] Allocate body torque to the current orthogonal three-wheel assembly.
 - [ ] Generalize wheel allocation for the selected physical wheel geometry.
-- [ ] Add magnetorquer or other momentum-dumping actuation.
-- [ ] Implement wheel desaturation and degraded-actuator cases.
-- [ ] Validate momentum, power, and authority limits.
+- [x] Add magnetorquer or other momentum-dumping actuation.
+- [x] Implement wheel desaturation and degraded-actuator cases.
+- [x] Validate momentum, power, and authority limits.
 
 ## Phase 7 — Flight-software implementation
 

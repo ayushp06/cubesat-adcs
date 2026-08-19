@@ -61,6 +61,8 @@ truth state to estimator functions.
 - Inertial, Sun/safe, nadir/LVLH, and cubic-time shortest-path slew guidance.
 - Bounded quaternion PID-style integral augmentation and CARE-derived LQR with
   controllability, stability, and PD/PID/LQR performance checks.
+- Three-axis saturated magnetorquer actuation, B-dot detumbling, and
+  field-achievable reaction-wheel momentum unloading.
 - Research-grade theory and implementation guide in `README.md`.
 
 ## Known incomplete or unvalidated work
@@ -98,13 +100,14 @@ Executed with GNU Octave on 2026-08-19:
 | `testGuidance` | PASS — pointing geometry, LVLH frame, slew endpoints/rates |
 | `testAdvancedControllers` | PASS — PID limits, LQR controllability/CARE/stability, comparison |
 | `runControllerComparison` | PASS — PD/PID/LQR saturated 90-degree slew metrics |
+| `testMagneticControl` | PASS — rod/wheel limits, B-dot detumble, momentum reduction |
 
 These results describe only the commands above; no unrun result is implied.
 
 ## Next tasks
 
-1. Add and validate magnetic detumble and momentum unloading.
-2. Add deterministic flight mode management and transition tests.
+1. Add deterministic flight mode management and transition tests.
+2. Generalize wheel allocation for non-orthogonal/redundant assemblies.
 
 ## Latest good commit
 

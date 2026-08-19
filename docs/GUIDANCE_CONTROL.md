@@ -50,3 +50,23 @@ GNU Octave on 2026-08-19 measured: PD `52.60 s` settling and `4.4935e-3 N m s`
 effort; PID `52.60 s`, `0.0480 deg` final error, and `4.4957e-3 N m s`; LQR
 `63.40 s` and `5.3604e-3 N m s`. These compare the documented nominal tuning,
 not universally optimal controller performance.
+
+## 4. Magnetic actuation, detumble, and wheel unloading
+
+Three orthogonal rods produce body dipole `m_B=A_m m_rods`, with each rod
+limited to 0.2 A m^2. Magnetic torque is `tau_B=m_B x B_B`, so torque parallel
+to the local field is impossible.
+
+B-dot uses `m_cmd=-k_Bdot (B[k]-B[k-1])/dt`. For a body rotating in a slowly
+changing field, `Bdot approximately B x omega`; therefore the resulting torque
+opposes the component of angular rate perpendicular to the field. Orbital field
+direction variation supplies three-axis damping over time. The 10,000 s
+validation uses a 5,400 s changing LEO-scale field and confirms an initial
+`[8,-6,5] deg/s` tumble falls below 1 deg/s despite dipole saturation.
+
+For unloading, desired external torque is `-k_h h_w`. The minimum-norm dipole
+`m=B x tau_des/|B|^2` realizes the field-perpendicular projection. After rod
+saturation, the achieved magnetic torque—not the unattainable request—is
+mapped to wheel motor torque. Reaction-wheel body torque and magnetic torque
+then cancel ideally while wheel momentum decreases. Tests require momentum to
+fall below 20% of its initial value without exceeding wheel/rod limits.
