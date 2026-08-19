@@ -12,7 +12,7 @@ to selected hardware, or physically HIL-tested.
 
 ```mermaid
 flowchart LR
-  E[Orbit/environment truth] --> P[13-state 6-DOF plant]
+  E[Orbit/environment truth] --> P[16-state 6-DOF plant with wheels]
   P --> S[Sensor models]
   E --> S
   S --> D[TRIAD / QUEST / MEKF]
@@ -23,6 +23,9 @@ flowchart LR
   S -. binary packets .-> F[Portable C++ SIL / future MCU]
   F -. commands .-> A
 ```
+
+The executable closed-loop path and its truth/flight boundary are documented
+in [`docs/INTEGRATED_DIGITAL_TWIN.md`](docs/INTEGRATED_DIGITAL_TWIN.md).
 
 Truth is visible only to plant, sensor-generation, and metric code. Estimators
 receive measurements/reference vectors; controllers receive estimates and
