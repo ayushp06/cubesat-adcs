@@ -76,5 +76,5 @@ These results describe only the commands above; no unrun result is implied.
 
 ## Latest good commit
 
-`64fff93` (`feat: add quaternion PD attitude control`) is the latest validated
-technical commit before the closed-loop slew suite.
+`eda7348` (`feat: validate closed-loop attitude slews`) is the latest validated
+technical commit.
